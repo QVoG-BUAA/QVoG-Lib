@@ -7,14 +7,14 @@ export class EulerFlow extends Flow {
     private getDbContext = Configuration.getDbContextCallback();
 
     private strategy!: TraverseStrategy;
-    private visited: number[] = [];     // stack
+    private visited: Set<number> = new Set<number>();
     private streams: FlowStream[] = [];
     private stream: OptionalFlowStep[] = [];    // stack
 
     apply(source: Value, strategy: TraverseStrategy): FlowStream[] {
         this.strategy = strategy;
 
-        this.visited = [];
+        this.visited.clear();
         this.streams = [];
         this.stream = [[source, undefined]];
 
@@ -31,17 +31,17 @@ export class EulerFlow extends Flow {
         }
 
         for (const [value, edge] of neighbors) {
-            if (edge.id in this.visited) {
+            if (this.visited.has(edge.id)) {
                 this.streams.push(new FlowStream(this.stream));
                 return;
             }
-            this.visited.push(edge.id);
+            this.visited.add(edge.id);
             this.stream.push([value, edge]);
 
             this.dfs(value, edge);
 
             this.stream.pop();
-            this.visited.pop();
+            this.visited.delete(edge.id);
         }
     }
 }
