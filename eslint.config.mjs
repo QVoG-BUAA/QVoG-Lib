@@ -9,7 +9,8 @@ export default tseslint.config(
       semi: "error",
       quotes: ["error", "double", { "avoidEscape": true }],
       "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unused-vars": "off"
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-empty-object-type": "off"
     }
   }
 );

@@ -18,12 +18,12 @@ export class EulerFlow extends Flow {
         this.streams = [];
         this.stream = [[source, undefined]];
 
-        this.dfs(source, undefined);
+        this.dfs(source);
 
         return this.streams;
     }
 
-    private dfs(current: Value, edge?: Edge): void {
+    private dfs(current: Value): void {
         const neighbors = this.strategy.getNeighbors(this.getDbContext().getGremlinConnection().g(), current.getId());
         if (neighbors.length === 0) {
             this.streams.push(new FlowStream(this.stream));
@@ -33,12 +33,12 @@ export class EulerFlow extends Flow {
         for (const [value, edge] of neighbors) {
             if (this.visited.has(edge.id)) {
                 this.streams.push(new FlowStream(this.stream));
-                return;
+                continue;
             }
             this.visited.add(edge.id);
             this.stream.push([value, edge]);
 
-            this.dfs(value, edge);
+            this.dfs(value);
 
             this.stream.pop();
             this.visited.delete(edge.id);

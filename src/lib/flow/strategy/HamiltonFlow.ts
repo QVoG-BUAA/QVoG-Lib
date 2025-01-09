@@ -26,9 +26,6 @@ export class HamiltonFlow extends Flow {
     }
 
     private dfs(current: Value): void {
-        console.log(current.getId());
-        console.log(this.visited);
-
         const neighbors = this.strategy.getNeighbors(this.getDbContext().getGremlinConnection().g(), current.getId());
         if (neighbors.length === 0) {
             this.streams.push(new FlowStream(this.stream));

@@ -1,7 +1,6 @@
-import { Flow } from "~/lib/flow/strategy/Flow";
-import { TraverseStrategy } from "~/lib/flow/strategy/TraverseStrategy";
-
-export type FlowFeatures = {
-    flow: Flow,
-    strategy: TraverseStrategy,
-};
+/**
+ * This should be extended by concrete flow implementations to provide
+ * custom flow features.
+ */
+export interface FlowFeatures {
+}
