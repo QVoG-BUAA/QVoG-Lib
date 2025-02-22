@@ -1,7 +1,8 @@
 import { LanguageSpecification } from "qvog-engine";
 
 const PythonSpecification: LanguageSpecification = {
-    rules: []
+    valueRules: [],
+    typeRules: [],
 };
 
 export { PythonSpecification };

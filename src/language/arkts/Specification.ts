@@ -1,7 +1,8 @@
 import { LanguageSpecification } from "qvog-engine";
 
 const ArkTsSpecification: LanguageSpecification = {
-    rules: []
+    valueRules: [],
+    typeRules: [],
 };
 
 export { ArkTsSpecification };
