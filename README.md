@@ -14,10 +14,15 @@ To initialize the project, run the following command:
 
 ```bash
 npm install
+```
+
+If you have `qvog-engine` as a local module, run the following command next to link your local one:
+
+```bash
 npm link qvog-engine
 ```
 
-To build the project, run the following command:
+Then, to build the project, run the following command:
 
 ```bash
 npm run build
@@ -25,7 +30,19 @@ npm run build
 
 ## Usage
 
-Since it is a library, it is not necessary to run the project. To make it a local module, run the following command:
+### NPM Package
+
+It has been published to NPM registry: [qvog-lib](https://www.npmjs.com/package/qvog-lib).
+
+To install the package, run the following command:
+
+```bash
+npm install qvog-lib
+```
+
+### Local Package
+
+If you want to use the latest version of the library, you can build and link it locally. The package will be automatically updated when you build the project.
 
 ```bash
 npm link
