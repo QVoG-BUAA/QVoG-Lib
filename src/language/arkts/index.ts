@@ -4,6 +4,11 @@ import { AnyTypeRule, AssignmentRule, BinaryOperatorRule, BooleanTypeRule, Compa
 
 export * from "./Specifications";
 
+/**
+ * Specification for Ark TypeScript language.
+ * 
+ * @category Language
+ */
 const ArkTsSpecification: LanguageSpecification = {
     valueRules: [
         VariableRule,

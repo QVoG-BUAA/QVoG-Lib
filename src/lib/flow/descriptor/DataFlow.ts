@@ -5,16 +5,31 @@ import { FlowFeatures } from "~/lib/flow/Defines";
 import { HamiltonFlow } from "~/lib/flow/strategy/HamiltonFlow";
 import { DfgTraverse, TraverseStrategy } from "~/lib/flow/strategy/TraverseStrategy";
 
+/**
+ * Features for data flow.
+ * 
+ * @category Flow
+ */
 export interface DataFlowFeatures extends FlowFeatures {
     flow: Flow;
     strategy: TraverseStrategy;
 }
 
+/**
+ * @category Flow
+ */
 export interface DataFlowFeatureOptions extends FlowFeatures {
     flow?: Flow;
     strategy?: TraverseStrategy;
 }
 
+/**
+ * Data flow descriptor.
+ * 
+ * By default, it uses {@link HamiltonFlow | `HamiltonFlow`} to traverse the graph.
+ * 
+ * @category Flow
+ */
 export class DataFlow extends BaseFlow {
     private features: DataFlowFeatures = {
         flow: new HamiltonFlow(),

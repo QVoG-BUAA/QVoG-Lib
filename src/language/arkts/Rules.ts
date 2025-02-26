@@ -1,4 +1,4 @@
-import { InvalidType, InvalidValue, LanguageTypeRule, LanguageValueRule, ValueFactory } from "qvog-engine";
+import { InvalidType, LanguageTypeRule, LanguageValueRule, ValueFactory } from "qvog-engine";
 
 import { Assignment, Constant, Variable } from "~/graph";
 

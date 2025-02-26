@@ -24,7 +24,8 @@ export interface ConstantJson extends AstJson {
 
 /**
  * All types in ArkTS are represented by a name.
- * @todo Support literal type, which need more information.
+ * 
+ * TODO: Support literal type, which need more information.
  */
 export interface TypeJson extends AstJson {
     name: string;

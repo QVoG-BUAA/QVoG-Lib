@@ -4,6 +4,13 @@ import { FlowFeatures } from "~/lib/flow/Defines";
 import { EulerFlow, Flow } from "~/lib/flow/strategy";
 import { CfgTraverse, DfgTraverse, TraverseStrategy } from "~/lib/flow/strategy/TraverseStrategy";
 
+/**
+ * Features for taint flow.
+ * 
+ * Taint flow involves both data flow and control flow.
+ * 
+ * @category Flow
+ */
 export interface TaintFlowFeatures extends FlowFeatures {
     dataFlow: Flow;
     dataFlowStrategy: TraverseStrategy;
@@ -11,6 +18,9 @@ export interface TaintFlowFeatures extends FlowFeatures {
     controlFlowStrategy: TraverseStrategy;
 }
 
+/**
+ * @category Flow
+ */
 export interface TaintFlowFeatureOptions extends FlowFeatures {
     dataFlow?: Flow;
     dataFlowStrategy?: TraverseStrategy;
@@ -18,6 +28,17 @@ export interface TaintFlowFeatureOptions extends FlowFeatures {
     controlFlowStrategy?: TraverseStrategy;
 }
 
+/**
+ * Taint flow descriptor.
+ * 
+ * By default, it uses {@link EulerFlow | `EulerFlow`} to traverse the graph.
+ * First, it checks data flow reachability from the source to the sink.
+ * With the result source-sink pairs, it then checks control flow reachability.
+ * If the source-sink pair is reachable in control flow, it adds the path to the
+ * result.
+ * 
+ * @category Flow
+ */
 export class TaintFlow extends BaseFlow {
     private features: TaintFlowFeatures = {
         dataFlow: new EulerFlow(),

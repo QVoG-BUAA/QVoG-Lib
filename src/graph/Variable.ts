@@ -2,6 +2,8 @@ import { Value } from "qvog-engine";
 
 /**
  * Local variable defined in the program.
+ * 
+ * @category Graph
  */
 export class Variable extends Value {
     private name: string;
@@ -13,6 +15,7 @@ export class Variable extends Value {
 
     /**
      * Get the name of the variable.
+     * 
      * @returns The name.
      */
     getName(): string {

@@ -1,8 +1,11 @@
 import { Value } from "qvog-engine";
 
 /**
- * Base type for all statements in the program.
- * This can be used to represent any statement.
+ * Base type for all statements.
+ * 
+ * You can use `instanceof Statement` to match all statements.
+ * 
+ * @category Graph
  */
 export class Statement extends Value {
     constructor(identifier: string) {
@@ -11,7 +14,9 @@ export class Statement extends Value {
 }
 
 /**
- * Assignment statement in the program.
+ * Assignment statement.
+ * 
+ * @category Graph
  */
 export class Assignment extends Statement {
     private target: Value;
@@ -25,6 +30,7 @@ export class Assignment extends Statement {
 
     /**
      * Get the target of the assignment, which is the value that is being assigned to.
+     * 
      * @returns The target value.
      */
     getTarget(): Value {
@@ -33,6 +39,7 @@ export class Assignment extends Statement {
 
     /**
      * Get the value that is being assigned.
+     * 
      * @returns The value.
      */
     getValue(): Value {

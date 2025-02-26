@@ -1,15 +1,20 @@
 # QVoG Standard Library
 
+> [!WARNING]
 > THIS PROJECT IS A WORK IN PROGRESS
 
 QVoG Engine's standard query library.
 
 ## Build
 
+> [!NOTE]
+> Make sure you have [qvog-engine](https://github.com/QVoG-BUAA/QVoG-Engine-TS) linked as local module.
+
 To initialize the project, run the following command:
 
 ```bash
 npm install
+npm link qvog-engine
 ```
 
 To build the project, run the following command:
@@ -17,6 +22,8 @@ To build the project, run the following command:
 ```bash
 npm run build
 ```
+
+## Usage
 
 Since it is a library, it is not necessary to run the project. To make it a local module, run the following command:
 

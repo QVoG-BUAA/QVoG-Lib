@@ -1,7 +1,11 @@
 import { Value } from "qvog-engine";
 
 /**
- * Base type for all expressions as a wildcard type.
+ * Base type for all expressions.
+ * 
+ * You can use `instanceof Expression` to match all expressions.
+ * 
+ * @category Graph
  */
 export abstract class Expression extends Value {
 }
@@ -9,6 +13,8 @@ export abstract class Expression extends Value {
 
 /**
  * Arithmetic binary operator in the program.
+ * 
+ * @category Graph
  */
 export class BinaryOperator extends Expression {
     private leftOperand: Value;
@@ -24,6 +30,7 @@ export class BinaryOperator extends Expression {
 
     /**
      * Get the left operand of the binary operator.
+     * 
      * @returns The left operand.
      */
     getLeftOperand(): Value {
@@ -32,6 +39,7 @@ export class BinaryOperator extends Expression {
 
     /**
      * Get the right operand of the binary operator.
+     * 
      * @returns The right operand.
      */
     getRightOperand(): Value {
@@ -40,6 +48,7 @@ export class BinaryOperator extends Expression {
 
     /**
      * Get the operator of the binary operator.
+     * 
      * @returns The operator.
      */
     getOperator(): string {
@@ -55,6 +64,8 @@ export class BinaryOperator extends Expression {
 
 /**
  * Comparison binary operator in the program.
+ * 
+ * @category Graph
  */
 export class CompareOperator extends Expression {
     private leftOperand: Value;
@@ -70,6 +81,7 @@ export class CompareOperator extends Expression {
 
     /**
      * Get the left operand of the comparison operator.
+     * 
      * @returns The left operand.
      */
     getLeftOperand(): Value {
@@ -78,6 +90,7 @@ export class CompareOperator extends Expression {
 
     /**
      * Get the right operand of the comparison operator.
+     * 
      * @returns The right operand.
      */
     getRightOperand(): Value {
@@ -86,6 +99,7 @@ export class CompareOperator extends Expression {
 
     /**
      * Get the operator of the comparison operator.
+     * 
      * @returns The operator.
      */
     getOperator(): string {
@@ -101,6 +115,8 @@ export class CompareOperator extends Expression {
 
 /**
  * Unary operator in the program.
+ * 
+ * @category Graph
  */
 export class UnaryOperator extends Expression {
     private operand: Value;
@@ -114,6 +130,7 @@ export class UnaryOperator extends Expression {
 
     /**
      * Get the operand of the unary operator.
+     * 
      * @returns The operand.
      */
     getOperand(): Value {
@@ -122,6 +139,7 @@ export class UnaryOperator extends Expression {
 
     /**
      * Get the operator of the unary operator.
+     * 
      * @returns The operator.
      */
     getOperator(): string {
