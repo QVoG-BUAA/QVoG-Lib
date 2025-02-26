@@ -1,7 +1,7 @@
 import { BaseFlow, Column, DataColumn, FlowPath, IFlowDescriptorBuilder, Table, Value } from "qvog-engine";
 
-import { EulerFlow, Flow } from "~/lib/flow/strategy";
 import { FlowFeatures } from "~/lib/flow/Defines";
+import { EulerFlow, Flow } from "~/lib/flow/strategy";
 import { CfgTraverse, DfgTraverse, TraverseStrategy } from "~/lib/flow/strategy/TraverseStrategy";
 
 export interface TaintFlowFeatures extends FlowFeatures {

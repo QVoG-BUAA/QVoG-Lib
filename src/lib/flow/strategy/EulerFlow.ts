@@ -1,4 +1,4 @@
-import { Configuration, Edge, FlowStream, OptionalFlowStep, Value } from "qvog-engine";
+import { Configuration, FlowStream, OptionalFlowStep, Value } from "qvog-engine";
 
 import { Flow } from "~/lib/flow/strategy/Flow";
 import { TraverseStrategy } from "~/lib/flow/strategy/TraverseStrategy";
