@@ -1,0 +1,38 @@
+[
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "op1",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        },
+        "rightOp": {
+            "_identifier": "NumberConstant",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        }
+    },
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "_1",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        },
+        "rightOp": {
+            "_identifier": "NumberConstant",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        }
+    }
+]

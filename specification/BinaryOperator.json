@@ -1,0 +1,72 @@
+[
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "%4",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        },
+        "rightOp": {
+            "_identifier": "ArkNormalBinopExpr",
+            "op1": {
+                "_identifier": "Local",
+                "name": "_1",
+                "type": {
+                    "_identifier": "NumberType",
+                    "name": "number"
+                }
+            },
+            "op2": {
+                "_identifier": "Local",
+                "name": "_2",
+                "type": {
+                    "_identifier": "NumberType",
+                    "name": "number"
+                }
+            },
+            "operator": "%",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        }
+    },
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "%1",
+            "type": {
+                "_identifier": "BooleanType",
+                "name": "boolean"
+            }
+        },
+        "rightOp": {
+            "_identifier": "ArkConditionExpr",
+            "op1": {
+                "_identifier": "Local",
+                "name": "_1",
+                "type": {
+                    "_identifier": "NumberType",
+                    "name": "number"
+                }
+            },
+            "op2": {
+                "_identifier": "Local",
+                "name": "_2",
+                "type": {
+                    "_identifier": "NumberType",
+                    "name": "number"
+                }
+            },
+            "operator": "<",
+            "type": {
+                "_identifier": "BooleanType",
+                "name": "boolean"
+            }
+        }
+    }
+]

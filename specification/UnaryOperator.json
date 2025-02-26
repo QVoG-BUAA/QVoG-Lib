@@ -1,0 +1,29 @@
+[
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "%2",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        },
+        "rightOp": {
+            "_identifier": "ArkUnopExpr",
+            "op": {
+                "_identifier": "Local",
+                "name": "_1",
+                "type": {
+                    "_identifier": "NumberType",
+                    "name": "number"
+                }
+            },
+            "operator": "!",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        }
+    }
+]

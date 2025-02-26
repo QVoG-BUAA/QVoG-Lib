@@ -1,0 +1,128 @@
+[
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "any_type",
+            "type": {
+                "_identifier": "AnyType",
+                "name": "any"
+            }
+        },
+        "rightOp": {
+            "_identifier": "UndefinedConstant",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        }
+    },
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "unknown_type",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        },
+        "rightOp": {
+            "_identifier": "UndefinedConstant",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        }
+    },
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "boolean_type",
+            "type": {
+                "_identifier": "BooleanType",
+                "name": "boolean"
+            }
+        },
+        "rightOp": {
+            "_identifier": "UndefinedConstant",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        }
+    },
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "number_type",
+            "type": {
+                "_identifier": "NumberType",
+                "name": "number"
+            }
+        },
+        "rightOp": {
+            "_identifier": "UndefinedConstant",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        }
+    },
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "string_type",
+            "type": {
+                "_identifier": "StringType",
+                "name": "string"
+            }
+        },
+        "rightOp": {
+            "_identifier": "UndefinedConstant",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        }
+    },
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "null_type",
+            "type": {
+                "_identifier": "NullType",
+                "name": "null"
+            }
+        },
+        "rightOp": {
+            "_identifier": "UndefinedConstant",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        }
+    },
+    {
+        "_identifier": "ArkAssignStmt",
+        "leftOp": {
+            "_identifier": "Local",
+            "name": "undefined_type",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        },
+        "rightOp": {
+            "_identifier": "UndefinedConstant",
+            "type": {
+                "_identifier": "UndefinedType",
+                "name": "undefined"
+            }
+        }
+    }
+]

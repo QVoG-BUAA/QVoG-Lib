@@ -1,7 +1,7 @@
 {
   "name": "qvog-lib",
   "description": "QVoG library",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -31,6 +31,14 @@
     "typescript-eslint": "^8.19.1"
   },
   "dependencies": {
-    "deasync": "^0.1.30"
+    "deasync": "^0.1.30",
+    "qvog-engine": "^0.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QVoG-BUAA/QVoG-Lib.git"
+  },
+  "bugs": {
+    "url": "https://github.com/QVoG-BUAA/QVoG-Lib/issues"
   }
 }
