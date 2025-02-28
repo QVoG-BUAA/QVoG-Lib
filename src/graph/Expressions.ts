@@ -10,7 +10,6 @@ import { Value } from "qvog-engine";
 export abstract class Expression extends Value {
 }
 
-
 /**
  * Arithmetic binary operator in the program.
  * 
@@ -149,5 +148,65 @@ export class UnaryOperator extends Expression {
     protected *elements(): IterableIterator<Value> {
         yield this;
         yield this.operand;
+    }
+}
+
+/**
+ * Invocation expression, i.e. a function call.
+ * 
+ * @category Graph
+ */
+export class InvokeExpr extends Expression {
+    private target: string;
+    private args: Value[];
+
+    constructor(identifier: string, target: string, args: Value[]) {
+        super(identifier);
+        this.target = target;
+        this.args = args;
+    }
+
+    /**
+    * Get the target of the invocation, which is the function name that is being called.
+    * 
+    * @returns The target function name.
+    */
+    getTarget(): string {
+        return this.target;
+    }
+
+    /**
+     * Get the number of arguments passed to the function.
+     * 
+     * @returns The number of arguments.
+     */
+    getArgsCount(): number {
+        return this.args.length;
+    }
+
+    /**
+     * Get all arguments passed to the function.
+     * 
+     * @returns The arguments passed to the function.
+     */
+    getArgs(): Value[] {
+        return this.args;
+    }
+
+    /**
+     * Get the argument at the specified index.
+     * 
+     * @param index Index of the argument to get.
+     * @returns The argument at the specified index.
+     */
+    getArg(index: number): Value {
+        return this.args[index];
+    }
+
+    protected *elements(): IterableIterator<Value> {
+        yield this;
+        for (const arg of this.args) {
+            yield arg;
+        }
     }
 }

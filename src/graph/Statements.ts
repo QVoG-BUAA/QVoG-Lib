@@ -1,4 +1,5 @@
 import { Value } from "qvog-engine";
+import { InvokeExpr } from "./Expressions";
 
 /**
  * Base type for all statements.
@@ -18,7 +19,7 @@ export class Statement extends Value {
  * 
  * @category Graph
  */
-export class Assignment extends Statement {
+export class AssignStmt extends Statement {
     private target: Value;
     private value: Value;
 
@@ -50,5 +51,35 @@ export class Assignment extends Statement {
         yield this;
         yield this.target;
         yield this.value;
+    }
+}
+
+/**
+ * Invocation statement, i.e. a function call.
+ * 
+ * FIXME: Can we assume that invoke statement only contains invoke expression?
+ * 
+ * @category Graph
+ */
+export class InvokeStmt extends Statement {
+    private expression: InvokeExpr;
+
+    constructor(identifier: string, expression: InvokeExpr) {
+        super(identifier);
+        this.expression = expression;
+    }
+
+    /**
+     * Get the invocation expression.
+     * 
+     * @returns The invocation expression.
+     */
+    getExpression(): InvokeExpr {
+        return this.expression;
+    }
+
+    protected *elements(): IterableIterator<Value> {
+        yield this;
+        yield this.expression;
     }
 }

@@ -81,3 +81,92 @@ export class UndefinedType extends PrimitiveType {
         super(identifier, name);
     }
 }
+
+/**
+ * Array type is a composite type that contains elements of a specific type.
+ * 
+ * @category Graph
+ */
+export class ArrayType extends Type {
+    private elementType: Type;
+    private dimension: number;
+
+    constructor(identifier: string, name: string, elementType: Type, dimension: number) {
+        super(identifier, name);
+        this.elementType = elementType;
+        this.dimension = dimension;
+    }
+
+    /**
+     * Get the element type of the array.
+     * 
+     * @returns The type of the elements in the array.
+     */
+    getElementType(): Type {
+        return this.elementType;
+    }
+
+    /**
+     * Get the dimension of the array.
+     * 
+     * @returns The number of dimensions of the array.
+     */
+    getDimension(): number {
+        return this.dimension;
+    }
+}
+
+/**
+ * Tuple type is a composite type that contains elements of different types.
+ * 
+ * @category Graph
+ */
+export class TupleType extends Type {
+    private elementTypes: Type[];
+
+    constructor(identifier: string, name: string, elementTypes: Type[]) {
+        super(identifier, name);
+        this.elementTypes = elementTypes;
+    }
+
+    /**
+     * Get the size of the tuple.
+     * 
+     * @returns The number of elements in the tuple.
+     */
+    getSize(): number {
+        return this.elementTypes.length;
+    }
+
+    /**
+     * Get all element types of the tuple.
+     * 
+     * @returns All element types of the tuple.
+     */
+    getElementTypes(): Type[] {
+        return this.elementTypes;
+    }
+
+    /**
+     * Get the type of the element at the given index.
+     * 
+     * @param index Index of the element type in the tuple.
+     * @returns The type of the element at the given index.
+     */
+    getElementType(index: number): Type {
+        return this.elementTypes[index];
+    }
+}
+
+/**
+ * Function type represents a function signature.
+ * 
+ * Currently is empty.
+ * 
+ * @category Graph
+ */
+export class FunctionType extends Type {
+    constructor(identifier: string, name: string) {
+        super(identifier, name);
+    }
+}

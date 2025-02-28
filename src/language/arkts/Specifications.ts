@@ -23,12 +23,19 @@ export interface ConstantJson extends AstJson {
 //////////////////////////////////////////////////////////////////////
 
 /**
- * All types in ArkTS are represented by a name.
- * 
- * TODO: Support literal type, which need more information.
+ * Basic types in ArkTS are represented by a name.
  */
 export interface TypeJson extends AstJson {
     name: string;
+}
+
+export interface ArrayTypeJson extends TypeJson {
+    baseType: AstJson;
+    dimensions: number;
+}
+
+export interface TupleTypeJson extends TypeJson {
+    types: AstJson[];
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -39,6 +46,28 @@ export interface AssignStmtJson extends AstJson {
     leftOp: AstJson;
     rightOp: AstJson;
 }
+
+export interface InvokeStmtJson extends AstJson {
+    invokeExpr: InvokeExprJson;
+}
+
+/**
+ * There is actually three types of invocation statements in ArkTS:
+ * 
+ * - PtrInvoke
+ * - StaticInvoke
+ * - InstanceInvoke
+ * 
+ * However, we omit the distinction between these types in the AST for simplicity.
+ * 
+ * FIXME: Differentiate between the three types of invocation statements?
+ */
+export interface InvokeExprJson extends AstJson {
+    name: string,
+    args: AstJson[];
+    type: AstJson;
+}
+
 
 //////////////////////////////////////////////////////////////////////
 //                           Expressions                            //

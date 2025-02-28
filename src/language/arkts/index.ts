@@ -1,6 +1,6 @@
 import { LanguageSpecification } from "qvog-engine";
 
-import { AnyTypeRule, AssignmentRule, BinaryOperatorRule, BooleanTypeRule, CompareOperatorRule, ConstantRule, NullTypeRule, NumberTypeRule, StringTypeRule, UnaryOperatorRule, UndefinedTypeRule, UnknownTypeRule, VariableRule } from "./Rules";
+import { AnyTypeRule, ArrayTypeRule, AssignStmtRule, BinaryOperatorRule, BooleanTypeRule, CompareOperatorRule, ConstantRule, FunctionTypeRule, InvokeExprRule, InvokeStmtRule, NullTypeRule, NumberTypeRule, StringTypeRule, TupleTypeRule, UnaryOperatorRule, UndefinedTypeRule, UnknownTypeRule, VariableRule } from "./Rules";
 
 export * from "./Specifications";
 
@@ -13,13 +13,16 @@ const ArkTsSpecification: LanguageSpecification = {
     valueRules: [
         VariableRule,
         ConstantRule,
-        AssignmentRule,
-        BinaryOperatorRule, CompareOperatorRule, UnaryOperatorRule
+        AssignStmtRule,
+        BinaryOperatorRule, CompareOperatorRule, UnaryOperatorRule,
+        InvokeStmtRule, InvokeExprRule
     ],
     typeRules: [
         AnyTypeRule,
         UnknownTypeRule,
-        BooleanTypeRule, NumberTypeRule, StringTypeRule, NullTypeRule, UndefinedTypeRule
+        BooleanTypeRule, NumberTypeRule, StringTypeRule, NullTypeRule, UndefinedTypeRule,
+        ArrayTypeRule, TupleTypeRule,
+        FunctionTypeRule
     ]
 };
 
