@@ -5,6 +5,9 @@
 
 QVoG Engine's standard query library.
 
+> [!NOTE]
+> Use Node.js 22 or higher, it seems to have some issues with older versions.
+
 ## Build
 
 > [!NOTE]

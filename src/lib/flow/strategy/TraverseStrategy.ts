@@ -1,4 +1,4 @@
-import deasync from "deasync";
+import { loopWhile } from "@kaciras/deasync";
 import { Configuration, FlowStep, process } from "qvog-engine";
 
 export abstract class TraverseStrategy {
@@ -21,7 +21,7 @@ export class DfgTraverse extends TraverseStrategy {
                 });
                 blocked = false;
             });
-        deasync.loopWhile(() => blocked);
+        loopWhile(() => blocked);
         return steps;
     }
 }
@@ -42,7 +42,7 @@ export class CfgTraverse extends TraverseStrategy {
                 });
                 blocked = false;
             });
-        deasync.loopWhile(() => blocked);
+        loopWhile(() => blocked);
         return steps;
     }
 }

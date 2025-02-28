@@ -31,7 +31,7 @@
     "typescript-eslint": "^8.19.1"
   },
   "dependencies": {
-    "deasync": "^0.1.30",
+    "@kaciras/deasync": "^1.1.0",
     "qvog-engine": "^0.1.1"
   },
   "repository": {
