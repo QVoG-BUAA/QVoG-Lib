@@ -83,3 +83,35 @@ export class InvokeStmt extends Statement {
         yield this.expression;
     }
 }
+
+/**
+ * Return statement with an optional return value.
+ * 
+ * @category Graph
+ */
+export class ReturnStmt extends Statement {
+    private value?: Value;
+
+    constructor(identifier: string, value?: Value) {
+        super(identifier);
+        this.value = value;
+    }
+
+    /**
+     * Check if the return statement has a return value.
+     * 
+     * @returns true if the return statement has a value, false otherwise.
+     */
+    hasValue(): boolean {
+        return this.value !== undefined;
+    }
+
+    /**
+     * Get the return value.
+     * 
+     * @returns The return value, or undefined if there is no return value.
+     */
+    getValue(): Value | undefined {
+        return this.value;
+    }
+}

@@ -1,10 +1,17 @@
-import { AstJson, LanguageTypeRule, LanguageValueRule, ValueFactory } from "qvog-engine";
+import { AstJson, InvalidType, LanguageTypeRule, LanguageValueRule, ValueFactory } from "qvog-engine";
 
-import { AssignStmt, Constant, InvokeStmt, Variable } from "~/graph";
-import { BinaryOperator, CompareOperator, InvokeExpr, NewExpr, UnaryOperator } from "~/graph/Expressions";
+import { AssignStmt, Constant, InvokeStmt, ReturnStmt, Variable } from "~/graph";
+import { BinaryOperator, CompareOperator, InstanceOfExpr, InvokeExpr, NewExpr, UnaryOperator } from "~/graph/Expressions";
 import { AnyType, ArrayType, BooleanType, ClassType, FunctionType, NullType, NumberType, StringType, TupleType, UndefinedType, UnknownType } from "~/graph/Types";
 
-import { ArrayTypeJson, AssignStmtJson, BinaryOperatorJson, ConstantJson, InvokeExprJson, InvokeStmtJson, NewExprJson, TupleTypeJson, TypeJson, UnaryOperatorJson, VariableJson } from "./Specifications";
+import { ArrayTypeJson, AssignStmtJson, BinaryOperatorJson, ConstantJson, InstanceOfExprJson, InvokeExprJson, InvokeStmtJson, NewExprJson, ReturnStmtJson, TupleTypeJson, TypeJson, UnaryOperatorJson, VariableJson } from "./Specifications";
+
+export const DefaultTypeRule: LanguageTypeRule<InvalidType> = {
+    types: "*",
+    build(json: TypeJson, factory: ValueFactory): InvalidType {
+        return new InvalidType(json._identifier, json.name);
+    }
+};
 
 //////////////////////////////////////////////////////////////////////
 //                           Values                                 //
@@ -132,6 +139,16 @@ export const InvokeStmtRule: LanguageValueRule<InvokeStmt> = {
     }
 };
 
+export const ReturnStmtRule: LanguageValueRule<ReturnStmt> = {
+    types: ["ArkReturnVoidStmt", "ArkReturnStmt"],
+    build(json: ReturnStmtJson, factory: ValueFactory): ReturnStmt {
+        if (json.op) {
+            return new ReturnStmt(json._identifier, factory.buildValue(json.op));
+        }
+        return new ReturnStmt(json._identifier);
+    }
+};
+
 //////////////////////////////////////////////////////////////////////
 //                           Expressions                            //
 //////////////////////////////////////////////////////////////////////
@@ -165,8 +182,9 @@ export const UnaryOperatorRule: LanguageValueRule<UnaryOperator> = {
 export const InvokeExprRule: LanguageValueRule<InvokeExpr> = {
     types: ["ArkPtrInvokeExpr", "ArkStaticInvokeExpr", "ArkInstanceInvokeExpr"],
     build(json: InvokeExprJson, factory: ValueFactory): InvokeExpr {
+        const base = json.base ? factory.buildValue(json.base) : undefined;
         const args = json.args.map((arg: AstJson) => factory.buildValue(arg));
-        const expression = new InvokeExpr(json._identifier, json.name, args);
+        const expression = new InvokeExpr(json._identifier, json.name, args, base);
         expression.setType(factory.buildType(json.type));
         return expression;
     }
@@ -176,6 +194,17 @@ export const NewExprRule: LanguageValueRule<NewExpr> = {
     types: "ArkNewExpr",
     build(json: NewExprJson, factory: ValueFactory): NewExpr {
         const expression = new NewExpr(json._identifier);
+        expression.setType(factory.buildType(json.type));
+        return expression;
+    }
+};
+
+export const InstanceOfExprRule: LanguageValueRule<InstanceOfExpr> = {
+    types: "ArkInstanceOfExpr",
+    build(json: InstanceOfExprJson, factory: ValueFactory): InstanceOfExpr {
+        const op = factory.buildValue(json.op);
+        const checkType = factory.buildType(json.checkType);
+        const expression = new InstanceOfExpr(json._identifier, op, checkType);
         expression.setType(factory.buildType(json.type));
         return expression;
     }

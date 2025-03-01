@@ -1,4 +1,4 @@
-import { Value } from "qvog-engine";
+import { Type, Value } from "qvog-engine";
 
 /**
  * Base type for all expressions.
@@ -152,18 +152,36 @@ export class UnaryOperator extends Expression {
 }
 
 /**
- * Invocation expression, i.e. a function call.
+ * Invocation expression.
+ * 
+ * This can be regular function call, or method call on an object.
+ * If it is a method call, use {@link InvokeExpr.getBase | `getBase`} to get the
+ * object, and {@link InvokeExpr.getTarget | `getTarget`} to get the method name.
+ * Otherwise, {@link InvokeExpr.getBase | `getBase`} will return `undefined`, and
+ * you can use {@link InvokeExpr.getTarget | `getTarget`} to get the function name.
  * 
  * @category Graph
  */
 export class InvokeExpr extends Expression {
+    private base?: Value;
     private target: string;
     private args: Value[];
 
-    constructor(identifier: string, target: string, args: Value[]) {
+    constructor(identifier: string, target: string, args: Value[], base?: Value) {
         super(identifier);
+        this.base = base;
         this.target = target;
         this.args = args;
+    }
+
+    /**
+     * Get the base object of the invocation, which is the object that the method
+     * is called on.
+     * 
+     * @returns The base object, or `undefined` if it is a regular function call.
+     */
+    getBase(): Value | undefined {
+        return this.base;
     }
 
     /**
@@ -205,6 +223,9 @@ export class InvokeExpr extends Expression {
 
     protected *elements(): IterableIterator<Value> {
         yield this;
+        if (this.base) {
+            yield this.base;
+        }
         for (const arg of this.args) {
             yield arg;
         }
@@ -219,5 +240,42 @@ export class InvokeExpr extends Expression {
 export class NewExpr extends Expression {
     constructor(identifier: string) {
         super(identifier);
+    }
+}
+
+/**
+ * @category Graph
+ */
+export class InstanceOfExpr extends Expression {
+    private object: Value;
+    private testType: Type;
+
+    constructor(identifier: string, object: Value, testType: Type) {
+        super(identifier);
+        this.object = object;
+        this.testType = testType;
+    }
+
+    /**
+     * Get the object to test.
+     * 
+     * @returns The object to test.
+     */
+    getObject(): Value {
+        return this.object;
+    }
+
+    /**
+     * Get the type to test against.
+     * 
+     * @returns The type.
+     */
+    getTestType(): Type {
+        return this.testType;
+    }
+
+    protected *elements(): IterableIterator<Value> {
+        yield this;
+        yield this.object;
     }
 }
