@@ -14,7 +14,7 @@ export interface VariableJson extends AstJson {
 }
 
 export interface ConstantJson extends AstJson {
-    // TODO: Add literal value field.
+    value: string;
     type: AstJson;
 }
 
@@ -53,6 +53,10 @@ export interface InvokeStmtJson extends AstJson {
 
 export interface ReturnStmtJson extends AstJson {
     op?: AstJson;
+}
+
+export interface IfStmtJson extends AstJson {
+    conditionExpr: AstJson;
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -114,4 +114,40 @@ export class ReturnStmt extends Statement {
     getValue(): Value | undefined {
         return this.value;
     }
+
+    protected *elements(): IterableIterator<Value> {
+        yield this;
+        if (this.value) {
+            yield this.value;
+        }
+    }
+}
+
+
+/**
+ * If statement.
+ * 
+ * @category Graph
+ */
+export class IfStmt extends Statement {
+    private condition: Value;
+
+    constructor(identifier: string, condition: Value) {
+        super(identifier);
+        this.condition = condition;
+    }
+
+    /**
+     * Get the condition expression.
+     * 
+     * @returns The condition expression.
+     */
+    getCondition(): Value {
+        return this.condition;
+    }
+
+    protected *elements(): IterableIterator<Value> {
+        yield this;
+        yield this.condition;
+    }
 }

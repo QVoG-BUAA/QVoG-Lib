@@ -1,14 +1,14 @@
 import { AstJson, InvalidType, LanguageTypeRule, LanguageValueRule, ValueFactory } from "qvog-engine";
 
-import { AssignStmt, Constant, InvokeStmt, ReturnStmt, Variable } from "~/graph";
+import { AssignStmt, Constant, IfStmt, InvokeStmt, ReturnStmt, Variable } from "~/graph";
 import { BinaryOperator, CompareOperator, InstanceOfExpr, InvokeExpr, NewExpr, UnaryOperator } from "~/graph/Expressions";
 import { AnyType, ArrayType, BooleanType, ClassType, FunctionType, NullType, NumberType, StringType, TupleType, UndefinedType, UnknownType } from "~/graph/Types";
 
-import { ArrayTypeJson, AssignStmtJson, BinaryOperatorJson, ConstantJson, InstanceOfExprJson, InvokeExprJson, InvokeStmtJson, NewExprJson, ReturnStmtJson, TupleTypeJson, TypeJson, UnaryOperatorJson, VariableJson } from "./Specifications";
+import * as JSON from "./Specifications";
 
 export const DefaultTypeRule: LanguageTypeRule<InvalidType> = {
     types: "*",
-    build(json: TypeJson, factory: ValueFactory): InvalidType {
+    build(json: JSON.TypeJson, factory: ValueFactory): InvalidType {
         return new InvalidType(json._identifier, json.name);
     }
 };
@@ -19,7 +19,7 @@ export const DefaultTypeRule: LanguageTypeRule<InvalidType> = {
 
 export const VariableRule: LanguageValueRule<Variable> = {
     types: "Local",
-    build(json: VariableJson, factory: ValueFactory): Variable {
+    build(json: JSON.VariableJson, factory: ValueFactory): Variable {
         const value = new Variable(json._identifier, json.name);
         value.setType(factory.buildType(json.type));
         return value;
@@ -28,8 +28,8 @@ export const VariableRule: LanguageValueRule<Variable> = {
 
 export const ConstantRule: LanguageValueRule<Constant> = {
     types: ["BooleanConstant", "NumberConstant", "StringConstant", "NullConstant", "UndefinedConstant"],
-    build(json: ConstantJson, factory: ValueFactory): Constant {
-        const value = new Constant(json._identifier);
+    build(json: JSON.ConstantJson, factory: ValueFactory): Constant {
+        const value = new Constant(json._identifier, json.value);
         value.setType(factory.buildType(json.type));
         return value;
     }
@@ -41,56 +41,56 @@ export const ConstantRule: LanguageValueRule<Constant> = {
 
 export const AnyTypeRule: LanguageTypeRule<AnyType> = {
     types: "AnyType",
-    build(json: TypeJson, factory: ValueFactory): AnyType {
+    build(json: JSON.TypeJson, factory: ValueFactory): AnyType {
         return new AnyType(json._identifier, json.name);
     }
 };
 
 export const UnknownTypeRule: LanguageTypeRule<UnknownType> = {
     types: "UnknownType",
-    build(json: TypeJson, factory: ValueFactory): UnknownType {
+    build(json: JSON.TypeJson, factory: ValueFactory): UnknownType {
         return new UnknownType(json._identifier, json.name);
     }
 };
 
 export const BooleanTypeRule: LanguageTypeRule<BooleanType> = {
     types: "BooleanType",
-    build(json: TypeJson, factory: ValueFactory): BooleanType {
+    build(json: JSON.TypeJson, factory: ValueFactory): BooleanType {
         return new BooleanType(json._identifier, json.name);
     }
 };
 
 export const NumberTypeRule: LanguageTypeRule<NumberType> = {
     types: "NumberType",
-    build(json: TypeJson, factory: ValueFactory): NumberType {
+    build(json: JSON.TypeJson, factory: ValueFactory): NumberType {
         return new NumberType(json._identifier, json.name);
     }
 };
 
 export const StringTypeRule: LanguageTypeRule<StringType> = {
     types: "StringType",
-    build(json: TypeJson, factory: ValueFactory): StringType {
+    build(json: JSON.TypeJson, factory: ValueFactory): StringType {
         return new StringType(json._identifier, json.name);
     }
 };
 
 export const NullTypeRule: LanguageTypeRule<NullType> = {
     types: "NullType",
-    build(json: TypeJson, factory: ValueFactory): NullType {
+    build(json: JSON.TypeJson, factory: ValueFactory): NullType {
         return new NullType(json._identifier, json.name);
     }
 };
 
 export const UndefinedTypeRule: LanguageTypeRule<UndefinedType> = {
     types: "UndefinedType",
-    build(json: TypeJson, factory: ValueFactory): UndefinedType {
+    build(json: JSON.TypeJson, factory: ValueFactory): UndefinedType {
         return new UndefinedType(json._identifier, json.name);
     }
 };
 
 export const ArrayTypeRule: LanguageTypeRule<ArrayType> = {
     types: "ArrayType",
-    build(json: ArrayTypeJson, factory: ValueFactory): ArrayType {
+    build(json: JSON.ArrayTypeJson, factory: ValueFactory): ArrayType {
         const elementType = factory.buildType(json.baseType);
         return new ArrayType(json._identifier, json.name, elementType, json.dimensions);
     }
@@ -98,7 +98,7 @@ export const ArrayTypeRule: LanguageTypeRule<ArrayType> = {
 
 export const TupleTypeRule: LanguageTypeRule<TupleType> = {
     types: "TupleType",
-    build(json: TupleTypeJson, factory: ValueFactory): TupleType {
+    build(json: JSON.TupleTypeJson, factory: ValueFactory): TupleType {
         const elementTypes = json.types.map((type: AstJson) => factory.buildType(type));
         return new TupleType(json._identifier, json.name, elementTypes);
     }
@@ -106,14 +106,14 @@ export const TupleTypeRule: LanguageTypeRule<TupleType> = {
 
 export const FunctionTypeRule: LanguageTypeRule<FunctionType> = {
     types: "FunctionType",
-    build(json: TypeJson, factory: ValueFactory): FunctionType {
+    build(json: JSON.TypeJson, factory: ValueFactory): FunctionType {
         return new FunctionType(json._identifier, json.name);
     }
 };
 
 export const ClassTypeRule: LanguageTypeRule<ClassType> = {
     types: "ClassType",
-    build(json: TypeJson, factory: ValueFactory): ClassType {
+    build(json: JSON.TypeJson, factory: ValueFactory): ClassType {
         return new ClassType(json._identifier, json.name);
     }
 };
@@ -124,7 +124,7 @@ export const ClassTypeRule: LanguageTypeRule<ClassType> = {
 
 export const AssignStmtRule: LanguageValueRule<AssignStmt> = {
     types: "ArkAssignStmt",
-    build(json: AssignStmtJson, factory: ValueFactory): AssignStmt {
+    build(json: JSON.AssignStmtJson, factory: ValueFactory): AssignStmt {
         const target = factory.buildValue(json.leftOp);
         const value = factory.buildValue(json.rightOp);
         return new AssignStmt(json._identifier, target, value);
@@ -133,7 +133,7 @@ export const AssignStmtRule: LanguageValueRule<AssignStmt> = {
 
 export const InvokeStmtRule: LanguageValueRule<InvokeStmt> = {
     types: "ArkInvokeStmt",
-    build(json: InvokeStmtJson, factory: ValueFactory): InvokeStmt {
+    build(json: JSON.InvokeStmtJson, factory: ValueFactory): InvokeStmt {
         const expression = factory.buildValue<InvokeExpr>(json.invokeExpr);
         return new InvokeStmt(json._identifier, expression);
     }
@@ -141,11 +141,18 @@ export const InvokeStmtRule: LanguageValueRule<InvokeStmt> = {
 
 export const ReturnStmtRule: LanguageValueRule<ReturnStmt> = {
     types: ["ArkReturnVoidStmt", "ArkReturnStmt"],
-    build(json: ReturnStmtJson, factory: ValueFactory): ReturnStmt {
+    build(json: JSON.ReturnStmtJson, factory: ValueFactory): ReturnStmt {
         if (json.op) {
             return new ReturnStmt(json._identifier, factory.buildValue(json.op));
         }
         return new ReturnStmt(json._identifier);
+    }
+};
+
+export const IfStmtRule: LanguageValueRule<IfStmt> = {
+    types: "ArkIfStmt",
+    build(json: JSON.IfStmtJson, factory: ValueFactory): IfStmt {
+        return new IfStmt(json._identifier, factory.buildValue(json.conditionExpr));
     }
 };
 
@@ -155,7 +162,7 @@ export const ReturnStmtRule: LanguageValueRule<ReturnStmt> = {
 
 export const BinaryOperatorRule: LanguageValueRule<BinaryOperator> = {
     types: "ArkNormalBinopExpr",
-    build(json: BinaryOperatorJson, factory: ValueFactory): BinaryOperator {
+    build(json: JSON.BinaryOperatorJson, factory: ValueFactory): BinaryOperator {
         const leftOperand = factory.buildValue(json.op1);
         const rightOperand = factory.buildValue(json.op2);
         return new BinaryOperator(json._identifier, leftOperand, rightOperand, json.operator);
@@ -164,7 +171,7 @@ export const BinaryOperatorRule: LanguageValueRule<BinaryOperator> = {
 
 export const CompareOperatorRule: LanguageValueRule<CompareOperator> = {
     types: "ArkConditionExpr",
-    build(json: BinaryOperatorJson, factory: ValueFactory): CompareOperator {
+    build(json: JSON.BinaryOperatorJson, factory: ValueFactory): CompareOperator {
         const leftOperand = factory.buildValue(json.op1);
         const rightOperand = factory.buildValue(json.op2);
         return new CompareOperator(json._identifier, leftOperand, rightOperand, json.operator);
@@ -173,7 +180,7 @@ export const CompareOperatorRule: LanguageValueRule<CompareOperator> = {
 
 export const UnaryOperatorRule: LanguageValueRule<UnaryOperator> = {
     types: "ArkUnaryOperator",
-    build(json: UnaryOperatorJson, factory: ValueFactory): UnaryOperator {
+    build(json: JSON.UnaryOperatorJson, factory: ValueFactory): UnaryOperator {
         const operand = factory.buildValue(json.op);
         return new UnaryOperator(json._identifier, operand, json.operator);
     }
@@ -181,7 +188,7 @@ export const UnaryOperatorRule: LanguageValueRule<UnaryOperator> = {
 
 export const InvokeExprRule: LanguageValueRule<InvokeExpr> = {
     types: ["ArkPtrInvokeExpr", "ArkStaticInvokeExpr", "ArkInstanceInvokeExpr"],
-    build(json: InvokeExprJson, factory: ValueFactory): InvokeExpr {
+    build(json: JSON.InvokeExprJson, factory: ValueFactory): InvokeExpr {
         const base = json.base ? factory.buildValue(json.base) : undefined;
         const args = json.args.map((arg: AstJson) => factory.buildValue(arg));
         const expression = new InvokeExpr(json._identifier, json.name, args, base);
@@ -192,7 +199,7 @@ export const InvokeExprRule: LanguageValueRule<InvokeExpr> = {
 
 export const NewExprRule: LanguageValueRule<NewExpr> = {
     types: "ArkNewExpr",
-    build(json: NewExprJson, factory: ValueFactory): NewExpr {
+    build(json: JSON.NewExprJson, factory: ValueFactory): NewExpr {
         const expression = new NewExpr(json._identifier);
         expression.setType(factory.buildType(json.type));
         return expression;
@@ -201,7 +208,7 @@ export const NewExprRule: LanguageValueRule<NewExpr> = {
 
 export const InstanceOfExprRule: LanguageValueRule<InstanceOfExpr> = {
     types: "ArkInstanceOfExpr",
-    build(json: InstanceOfExprJson, factory: ValueFactory): InstanceOfExpr {
+    build(json: JSON.InstanceOfExprJson, factory: ValueFactory): InstanceOfExpr {
         const op = factory.buildValue(json.op);
         const checkType = factory.buildType(json.checkType);
         const expression = new InstanceOfExpr(json._identifier, op, checkType);
