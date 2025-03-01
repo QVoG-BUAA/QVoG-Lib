@@ -170,3 +170,14 @@ export class FunctionType extends Type {
         super(identifier, name);
     }
 }
+
+/**
+ * Class type is the name of the class.
+ * 
+ * @category Graph
+ */
+export class ClassType extends Type {
+    constructor(identifier: string, name: string) {
+        super(identifier, name);
+    }
+}

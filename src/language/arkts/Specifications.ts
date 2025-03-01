@@ -68,6 +68,10 @@ export interface InvokeExprJson extends AstJson {
     type: AstJson;
 }
 
+export interface NewExprJson extends AstJson {
+    type: AstJson;
+}
+
 
 //////////////////////////////////////////////////////////////////////
 //                           Expressions                            //

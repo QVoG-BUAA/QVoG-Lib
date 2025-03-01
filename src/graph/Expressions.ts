@@ -210,3 +210,14 @@ export class InvokeExpr extends Expression {
         }
     }
 }
+
+/**
+ * New expression, only type information is available.
+ * 
+ * @category Graph
+ */
+export class NewExpr extends Expression {
+    constructor(identifier: string) {
+        super(identifier);
+    }
+}

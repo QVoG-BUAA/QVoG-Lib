@@ -1,10 +1,10 @@
 import { AstJson, LanguageTypeRule, LanguageValueRule, ValueFactory } from "qvog-engine";
 
 import { AssignStmt, Constant, InvokeStmt, Variable } from "~/graph";
-import { BinaryOperator, CompareOperator, InvokeExpr, UnaryOperator } from "~/graph/Expressions";
-import { AnyType, ArrayType, BooleanType, FunctionType, NullType, NumberType, StringType, TupleType, UndefinedType, UnknownType } from "~/graph/Types";
+import { BinaryOperator, CompareOperator, InvokeExpr, NewExpr, UnaryOperator } from "~/graph/Expressions";
+import { AnyType, ArrayType, BooleanType, ClassType, FunctionType, NullType, NumberType, StringType, TupleType, UndefinedType, UnknownType } from "~/graph/Types";
 
-import { ArrayTypeJson, AssignStmtJson, BinaryOperatorJson, ConstantJson, InvokeExprJson, InvokeStmtJson, TupleTypeJson, TypeJson, UnaryOperatorJson, VariableJson } from "./Specifications";
+import { ArrayTypeJson, AssignStmtJson, BinaryOperatorJson, ConstantJson, InvokeExprJson, InvokeStmtJson, NewExprJson, TupleTypeJson, TypeJson, UnaryOperatorJson, VariableJson } from "./Specifications";
 
 //////////////////////////////////////////////////////////////////////
 //                           Values                                 //
@@ -104,6 +104,13 @@ export const FunctionTypeRule: LanguageTypeRule<FunctionType> = {
     }
 };
 
+export const ClassTypeRule: LanguageTypeRule<ClassType> = {
+    types: "ClassType",
+    build(json: TypeJson, factory: ValueFactory): ClassType {
+        return new ClassType(json._identifier, json.name);
+    }
+};
+
 //////////////////////////////////////////////////////////////////////
 //                           Statements                             //
 //////////////////////////////////////////////////////////////////////
@@ -160,6 +167,15 @@ export const InvokeExprRule: LanguageValueRule<InvokeExpr> = {
     build(json: InvokeExprJson, factory: ValueFactory): InvokeExpr {
         const args = json.args.map((arg: AstJson) => factory.buildValue(arg));
         const expression = new InvokeExpr(json._identifier, json.name, args);
+        expression.setType(factory.buildType(json.type));
+        return expression;
+    }
+};
+
+export const NewExprRule: LanguageValueRule<NewExpr> = {
+    types: "ArkNewExpr",
+    build(json: NewExprJson, factory: ValueFactory): NewExpr {
+        const expression = new NewExpr(json._identifier);
         expression.setType(factory.buildType(json.type));
         return expression;
     }
