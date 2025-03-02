@@ -18,6 +18,18 @@ export interface ConstantJson extends AstJson {
     type: AstJson;
 }
 
+export interface FieldReferenceJson extends AstJson {
+    base: AstJson | string;
+    name: string;
+    type: AstJson;
+}
+
+export interface ArrayReferenceJson extends AstJson {
+    base: AstJson;
+    index: AstJson;
+    type: AstJson;
+}
+
 //////////////////////////////////////////////////////////////////////
 //                           Types                                  //
 //////////////////////////////////////////////////////////////////////

@@ -40,7 +40,7 @@ export class _P<U> {
      * Apply the predicate to a value.
      * 
      * @param value The value to test.
-     * @returns true if the value satisfies the predicate, otherwise false.
+     * @returns `true` if the value satisfies the predicate, otherwise `false`.
      */
     test(value: U): boolean {
         return this.predicate(value);
@@ -122,7 +122,7 @@ export class _Q<U, V> {
      * Apply the predicate to a value.
      * 
      * @param value The value to test.
-     * @returns true if the value satisfies the predicate, otherwise false.
+     * @returns `true` if the value satisfies the predicate, otherwise `false`.
      */
     test(value: U): boolean {
         return this.predicate(value);

@@ -11,17 +11,14 @@ export * from "./Specifications";
  */
 const ArkTsSpecification: LanguageSpecification = {
     valueRules: [
-        RULE.VariableRule,
-        RULE.ConstantRule,
-        RULE.AssignStmtRule,
+        RULE.VariableRule, RULE.ConstantRule,
+        RULE.FieldReferenceRule, RULE.ArrayReferenceRule,
+        RULE.AssignStmtRule, RULE.InvokeStmtRule, RULE.ReturnStmtRule, RULE.IfStmtRule,
         RULE.BinaryOperatorRule, RULE.CompareOperatorRule, RULE.UnaryOperatorRule,
-        RULE.InvokeStmtRule, RULE.InvokeExprRule,
-        RULE.NewExprRule, RULE.InstanceOfExprRule,
-        RULE.ReturnStmtRule, RULE.IfStmtRule
+        RULE.InvokeExprRule, RULE.NewExprRule, RULE.InstanceOfExprRule,
     ],
     typeRules: [
-        RULE.AnyTypeRule,
-        RULE.UnknownTypeRule,
+        RULE.AnyTypeRule, RULE.UnknownTypeRule,
         RULE.BooleanTypeRule, RULE.NumberTypeRule, RULE.StringTypeRule, RULE.NullTypeRule, RULE.UndefinedTypeRule,
         RULE.ArrayTypeRule, RULE.TupleTypeRule, RULE.UnionTypeRule,
         RULE.FunctionTypeRule, RULE.ClassTypeRule,

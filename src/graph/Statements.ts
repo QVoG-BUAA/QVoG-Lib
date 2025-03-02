@@ -100,7 +100,7 @@ export class ReturnStmt extends Statement {
     /**
      * Check if the return statement has a return value.
      * 
-     * @returns true if the return statement has a value, false otherwise.
+     * @returns `true` if the return statement has a value, `false` otherwise.
      */
     hasValue(): boolean {
         return this.value !== undefined;

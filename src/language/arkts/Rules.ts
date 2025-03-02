@@ -1,6 +1,6 @@
 import { AstJson, InvalidType, LanguageTypeRule, LanguageValueRule, ValueFactory } from "qvog-engine";
 
-import { AssignStmt, Constant, IfStmt, InvokeStmt, ReturnStmt, Variable } from "~/graph";
+import { ArrayReference, AssignStmt, Constant, FieldReference, IfStmt, InvokeStmt, ReturnStmt, Variable } from "~/graph";
 import { BinaryOperator, CompareOperator, InstanceOfExpr, InvokeExpr, NewExpr, UnaryOperator } from "~/graph/Expressions";
 import { AnyType, ArrayType, BooleanType, ClassType, FunctionType, NullType, NumberType, StringType, TupleType, UndefinedType, UnionType, UnknownType } from "~/graph/Types";
 
@@ -30,6 +30,27 @@ export const ConstantRule: LanguageValueRule<Constant> = {
     types: ["BooleanConstant", "NumberConstant", "StringConstant", "NullConstant", "UndefinedConstant"],
     build(json: JSON.ConstantJson, factory: ValueFactory): Constant {
         const value = new Constant(json._identifier, json.value);
+        value.setType(factory.buildType(json.type));
+        return value;
+    }
+};
+
+export const FieldReferenceRule: LanguageValueRule<FieldReference> = {
+    types: "ArkInstanceFieldRef",
+    build(json: JSON.FieldReferenceJson, factory: ValueFactory): FieldReference {
+        const base = (typeof json.base === "string") ? json.base : factory.buildValue(json.base);
+        const value = new FieldReference(json._identifier, base, json.name);
+        value.setType(factory.buildType(json.type));
+        return value;
+    }
+};
+
+export const ArrayReferenceRule: LanguageValueRule<ArrayReference> = {
+    types: "ArkArrayRef",
+    build(json: JSON.ArrayReferenceJson, factory: ValueFactory): ArrayReference {
+        const base = factory.buildValue(json.base);
+        const index = factory.buildValue(json.index);
+        const value = new ArrayReference(json._identifier, base, index);
         value.setType(factory.buildType(json.type));
         return value;
     }

@@ -257,6 +257,13 @@ export class NewExpr extends Expression {
     getSize(): Value | undefined {
         return this.size;
     }
+
+    protected *elements(): IterableIterator<Value> {
+        yield this;
+        if (this.size) {
+            yield this.size;
+        }
+    }
 }
 
 /**
