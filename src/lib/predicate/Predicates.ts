@@ -53,12 +53,13 @@ export class _P<U> {
      * as the subject of the predicate.
      * 
      * @typeParam V The type of the field.
+     * @typeParam W Any type.
      * 
      * @param predicate Predicate.
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    and<V>(predicate: _P<V> | _Q<V, V> | Predicate<V>, field?: FieldFn<U, V>): _Q<U, V> {
+    and<V, W = any>(predicate: _P<V> | _Q<V, W> | Predicate<V>, field?: FieldFn<U, V>): _Q<U, V> {
         if (!field) {
             field = (value: U) => value as unknown as V;
         }
@@ -78,12 +79,13 @@ export class _P<U> {
      * as the subject of the predicate.
      * 
      * @typeParam V The type of the field.
+     * @typeParam W Any type.
      * 
      * @param predicate Predicate.
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    or<V>(predicate: _P<V> | _Q<V, V> | Predicate<V>, field?: FieldFn<U, V>): _Q<U, V> {
+    or<V, W = any>(predicate: _P<V> | _Q<V, W> | Predicate<V>, field?: FieldFn<U, V>): _Q<U, V> {
         if (!field) {
             field = (value: U) => value as unknown as V;
         }
@@ -133,16 +135,17 @@ export class _Q<U, V> {
      * as the subject of the predicate.
      * 
      * @typeParam W The type of the field.
+     * @typeParam X Any type.
      * 
      * @param predicate Predicate.
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    and<W>(predicate: _P<W> | Predicate<W>, field?: FieldFn<V, W>): _Q<U, W> {
+    and<W, X = any>(predicate: _P<W> | _Q<W, X> | Predicate<W>, field?: FieldFn<V, W>): _Q<U, W> {
         if (!field) {
             field = (value: V) => value as unknown as W;
         }
-        const fn = (predicate instanceof _P)
+        const fn = ((predicate instanceof _P) || (predicate instanceof _Q))
             ? (v: W) => predicate.test(v)
             : predicate;
         return new _Q<U, W>(
@@ -158,16 +161,17 @@ export class _Q<U, V> {
      * as the subject of the predicate.
      * 
      * @typeParam W The type of the field.
+     * @typeParam X Any type.
      * 
      * @param predicate Predicate.
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    or<W>(predicate: _P<W> | Predicate<W>, field: FieldFn<V, W>): _Q<U, W> {
+    or<W, X = any>(predicate: _P<W> | _Q<W, X> | Predicate<W>, field?: FieldFn<V, W>): _Q<U, W> {
         if (!field) {
             field = (value: V) => value as unknown as W;
         }
-        const fn = (predicate instanceof _P)
+        const fn = ((predicate instanceof _P) || (predicate instanceof _Q))
             ? (v: W) => predicate.test(v)
             : predicate;
         return new _Q<U, W>(

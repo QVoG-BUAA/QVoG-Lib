@@ -38,6 +38,10 @@ export interface TupleTypeJson extends TypeJson {
     types: AstJson[];
 }
 
+export interface UnionTypeJson extends TypeJson {
+    types: AstJson[];
+}
+
 //////////////////////////////////////////////////////////////////////
 //                           Statements                             //
 //////////////////////////////////////////////////////////////////////
@@ -97,6 +101,7 @@ export interface InvokeExprJson extends AstJson {
 
 export interface NewExprJson extends AstJson {
     type: AstJson;
+    size?: AstJson;
 }
 
 export interface InstanceOfExprJson extends AstJson {

@@ -2,7 +2,7 @@ import { AstJson, InvalidType, LanguageTypeRule, LanguageValueRule, ValueFactory
 
 import { AssignStmt, Constant, IfStmt, InvokeStmt, ReturnStmt, Variable } from "~/graph";
 import { BinaryOperator, CompareOperator, InstanceOfExpr, InvokeExpr, NewExpr, UnaryOperator } from "~/graph/Expressions";
-import { AnyType, ArrayType, BooleanType, ClassType, FunctionType, NullType, NumberType, StringType, TupleType, UndefinedType, UnknownType } from "~/graph/Types";
+import { AnyType, ArrayType, BooleanType, ClassType, FunctionType, NullType, NumberType, StringType, TupleType, UndefinedType, UnionType, UnknownType } from "~/graph/Types";
 
 import * as JSON from "./Specifications";
 
@@ -104,6 +104,14 @@ export const TupleTypeRule: LanguageTypeRule<TupleType> = {
     }
 };
 
+export const UnionTypeRule: LanguageTypeRule<UnionType> = {
+    types: "UnionType",
+    build(json: JSON.UnionTypeJson, factory: ValueFactory): UnionType {
+        const types = json.types.map((type: AstJson) => factory.buildType(type));
+        return new UnionType(json._identifier, json.name, types);
+    }
+};
+
 export const FunctionTypeRule: LanguageTypeRule<FunctionType> = {
     types: "FunctionType",
     build(json: JSON.TypeJson, factory: ValueFactory): FunctionType {
@@ -198,9 +206,10 @@ export const InvokeExprRule: LanguageValueRule<InvokeExpr> = {
 };
 
 export const NewExprRule: LanguageValueRule<NewExpr> = {
-    types: "ArkNewExpr",
+    types: ["ArkNewExpr", "ArkNewArrayExpr"],
     build(json: JSON.NewExprJson, factory: ValueFactory): NewExpr {
-        const expression = new NewExpr(json._identifier);
+        const size = json.size ? factory.buildValue(json.size) : undefined;
+        const expression = new NewExpr(json._identifier, size);
         expression.setType(factory.buildType(json.type));
         return expression;
     }

@@ -233,13 +233,29 @@ export class InvokeExpr extends Expression {
 }
 
 /**
- * New expression, only type information is available.
+ * New expression.
+ * 
+ * Can be new object creation, or array creation.
+ * If is an array creation, use {@link NewExpr.getSize | `getSize`} to get the size
+ * of the array. Otherwise, {@link NewExpr.getSize | `getSize`} will return `undefined`.
  * 
  * @category Graph
  */
 export class NewExpr extends Expression {
-    constructor(identifier: string) {
+    private size?: Value;
+
+    constructor(identifier: string, size?: Value) {
         super(identifier);
+        this.size = size;
+    }
+
+    /**
+     * Get the size of the array being created.
+     * 
+     * @returns The size of the array, or `undefined` if it is an object creation.
+     */
+    getSize(): Value | undefined {
+        return this.size;
     }
 }
 

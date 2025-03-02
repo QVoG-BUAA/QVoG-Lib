@@ -159,6 +159,50 @@ export class TupleType extends Type {
 }
 
 /**
+ * Union type.
+ * 
+ * @category Graph
+ */
+export class UnionType extends Type {
+    private types: Type[];
+
+    constructor(identifier: string, name: string, types: Type[]) {
+        super(identifier, name);
+        this.types = types;
+    }
+
+    /**
+     * Get the number of types in the union type.
+     * 
+     * @returns The number of types in the union type.
+     */
+    getTypesCount(): number {
+        return this.types.length;
+    }
+
+    /**
+     * Get all types in the union type.
+     * 
+     * @returns All types in the union type.
+     */
+    getTypes(): Type[] {
+        return this.types;
+    }
+
+    /**
+     * Get the type at the specified index.
+     * 
+     * This may not reflect the original order of the types in the union.
+     * 
+     * @param index Index of the type to get.
+     * @returns The type at the specified index.
+     */
+    getType(index: number): Type {
+        return this.types[index];
+    }
+}
+
+/**
  * Function type represents a function signature.
  * 
  * Currently is empty.

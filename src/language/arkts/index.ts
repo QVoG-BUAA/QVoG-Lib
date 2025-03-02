@@ -23,7 +23,8 @@ const ArkTsSpecification: LanguageSpecification = {
         RULE.AnyTypeRule,
         RULE.UnknownTypeRule,
         RULE.BooleanTypeRule, RULE.NumberTypeRule, RULE.StringTypeRule, RULE.NullTypeRule, RULE.UndefinedTypeRule,
-        RULE.ArrayTypeRule, RULE.TupleTypeRule, RULE.FunctionTypeRule, RULE.ClassTypeRule,
+        RULE.ArrayTypeRule, RULE.TupleTypeRule, RULE.UnionTypeRule,
+        RULE.FunctionTypeRule, RULE.ClassTypeRule,
         RULE.DefaultTypeRule
     ]
 };

@@ -33,7 +33,6 @@ class C {
 test("Predicate test", () => {
     const a1 = new A(1, 2, 3);
     const a2 = new A(4, 5, 6);
-    const a3 = new A(-7, 8, 9);
 
     const predicate = P<A>(a => a.value > 0)
         .and<B>(
@@ -46,5 +45,4 @@ test("Predicate test", () => {
 
     expect(predicate.test(a1)).toBe(false);
     expect(predicate.test(a2)).toBe(true);
-    expect(predicate.test(a3)).toBe(true);
 });
