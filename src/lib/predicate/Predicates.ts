@@ -29,7 +29,7 @@ type FieldFn<T, U> = (value: T) => U;
  * 
  * @category Predicate
  */
-export class _P<U> {
+export class PImpl<U> {
     private predicate: Predicate<U>;
 
     constructor(predicate: Predicate<U>) {
@@ -59,14 +59,14 @@ export class _P<U> {
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    and<V, W = any>(predicate: _P<V> | _Q<V, W> | Predicate<V>, field?: FieldFn<U, V>): _Q<U, V> {
+    and<V, W = any>(predicate: PImpl<V> | QImpl<V, W> | Predicate<V>, field?: FieldFn<U, V>): QImpl<U, V> {
         if (!field) {
-            field = (value: U) => value as unknown as V;
+            field = (value: U): V => value as unknown as V;
         }
-        const fn = ((predicate instanceof _P) || (predicate instanceof _Q))
-            ? (v: V) => predicate.test(v)
+        const fn = ((predicate instanceof PImpl) || (predicate instanceof QImpl))
+            ? (v: V): boolean => predicate.test(v)
             : predicate;
-        return new _Q<U, V>(
+        return new QImpl<U, V>(
             (value: U) => this.predicate(value) && fn(field(value)),
             field
         );
@@ -85,14 +85,14 @@ export class _P<U> {
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    or<V, W = any>(predicate: _P<V> | _Q<V, W> | Predicate<V>, field?: FieldFn<U, V>): _Q<U, V> {
+    or<V, W = any>(predicate: PImpl<V> | QImpl<V, W> | Predicate<V>, field?: FieldFn<U, V>): QImpl<U, V> {
         if (!field) {
-            field = (value: U) => value as unknown as V;
+            field = (value: U): V => value as unknown as V;
         }
-        const fn = ((predicate instanceof _P) || (predicate instanceof _Q))
-            ? (v: V) => predicate.test(v)
+        const fn = ((predicate instanceof PImpl) || (predicate instanceof QImpl))
+            ? (v: V): boolean => predicate.test(v)
             : predicate;
-        return new _Q<U, V>(
+        return new QImpl<U, V>(
             (value: U) => this.predicate(value) || fn(field(value)),
             field
         );
@@ -109,7 +109,7 @@ export class _P<U> {
  * 
  * @category Predicate
  */
-export class _Q<U, V> {
+export class QImpl<U, V> {
     private predicate: Predicate<U>;
     private field: FieldFn<U, V>;
 
@@ -141,14 +141,14 @@ export class _Q<U, V> {
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    and<W, X = any>(predicate: _P<W> | _Q<W, X> | Predicate<W>, field?: FieldFn<V, W>): _Q<U, W> {
+    and<W, X = any>(predicate: PImpl<W> | QImpl<W, X> | Predicate<W>, field?: FieldFn<V, W>): QImpl<U, W> {
         if (!field) {
-            field = (value: V) => value as unknown as W;
+            field = (value: V): W => value as unknown as W;
         }
-        const fn = ((predicate instanceof _P) || (predicate instanceof _Q))
-            ? (v: W) => predicate.test(v)
+        const fn = ((predicate instanceof PImpl) || (predicate instanceof QImpl))
+            ? (v: W): boolean => predicate.test(v)
             : predicate;
-        return new _Q<U, W>(
+        return new QImpl<U, W>(
             (value: U) => this.predicate(value) && fn(field(this.field(value))),
             (value: U) => field(this.field(value))
         );
@@ -167,14 +167,14 @@ export class _Q<U, V> {
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    or<W, X = any>(predicate: _P<W> | _Q<W, X> | Predicate<W>, field?: FieldFn<V, W>): _Q<U, W> {
+    or<W, X = any>(predicate: PImpl<W> | QImpl<W, X> | Predicate<W>, field?: FieldFn<V, W>): QImpl<U, W> {
         if (!field) {
-            field = (value: V) => value as unknown as W;
+            field = (value: V): W => value as unknown as W;
         }
-        const fn = ((predicate instanceof _P) || (predicate instanceof _Q))
-            ? (v: W) => predicate.test(v)
+        const fn = ((predicate instanceof PImpl) || (predicate instanceof QImpl))
+            ? (v: W): boolean => predicate.test(v)
             : predicate;
-        return new _Q<U, W>(
+        return new QImpl<U, W>(
             (value: U) => this.predicate(value) || fn(field(this.field(value))),
             (value: U) => field(this.field(value))
         );
@@ -187,6 +187,6 @@ export class _Q<U, V> {
  * @param predicate The initial predicate.
  * @returns A chainable predicate object.
  */
-export function P<U>(predicate: Predicate<U>): _P<U> {
-    return new _P<U>(predicate);
+export function P<U>(predicate: Predicate<U>): PImpl<U> {
+    return new PImpl<U>(predicate);
 }

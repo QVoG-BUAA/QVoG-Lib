@@ -1,8 +1,8 @@
-import { BaseFlow, Column, DataColumn, FlowPath, IFlowDescriptorBuilder, Table, Value } from "qvog-engine";
+import { BaseFlow, Column, DataColumn, FlowPath, IFlowDescriptorBuilder, Table, Value } from 'qvog-engine';
 
-import { FlowFeatures } from "~/lib/flow/Defines";
-import { EulerFlow, Flow } from "~/lib/flow/strategy";
-import { CfgTraverse, DfgTraverse, TraverseStrategy } from "~/lib/flow/strategy/TraverseStrategy";
+import { FlowFeatures } from '~/lib/flow/Defines';
+import { EulerFlow, Flow } from '~/lib/flow/strategy';
+import { CfgTraverse, DfgTraverse, TraverseStrategy } from '~/lib/flow/strategy/TraverseStrategy';
 
 /**
  * Features for taint flow.
@@ -84,7 +84,7 @@ export class TaintFlow extends BaseFlow {
         });
     }
 
-    private existsControlFlow(current: Value, source: Column, sink: Column, barrier: Column, result: Table) {
+    private existsControlFlow(current: Value, source: Column, sink: Column, barrier: Column, result: Table): void {
         this.features.controlFlow.apply(current, this.features.controlFlowStrategy).forEach(stream => {
             const path = new FlowPath();
             for (const [value, _] of stream) {

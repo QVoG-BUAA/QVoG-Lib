@@ -1,5 +1,5 @@
-import { Type } from "qvog-engine";
-import { InvalidType } from "qvog-engine";
+import { Type } from 'qvog-engine';
+import { InvalidType } from 'qvog-engine';
 
 /**
  * In some languages, e.g. TypeScript, there is `any` type that can be anything.

@@ -1,7 +1,7 @@
-import { Configuration, FlowStream, OptionalFlowStep, Value } from "qvog-engine";
+import { Configuration, FlowStream, OptionalFlowStep, Value } from 'qvog-engine';
 
-import { Flow } from "~/lib/flow/strategy/Flow";
-import { TraverseStrategy } from "~/lib/flow/strategy/TraverseStrategy";
+import { Flow } from '~/lib/flow/strategy/Flow';
+import { TraverseStrategy } from '~/lib/flow/strategy/TraverseStrategy';
 
 export class EulerFlow extends Flow {
     private getDbContext = Configuration.getDbContextCallback();
@@ -9,7 +9,7 @@ export class EulerFlow extends Flow {
     private strategy!: TraverseStrategy;
     private visited: Set<number> = new Set<number>();
     private streams: FlowStream[] = [];
-    private stream: OptionalFlowStep[] = [];    // stack
+    private stream: OptionalFlowStep[] = [];
 
     apply(source: Value, strategy: TraverseStrategy): FlowStream[] {
         this.strategy = strategy;

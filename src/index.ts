@@ -14,6 +14,6 @@
  * Support for different programming languages.
  */
 
-export * from "./graph";
-export * from "./language";
-export * from "./lib";
+export * from './graph';
+export * from './language';
+export * from './lib';

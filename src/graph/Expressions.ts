@@ -1,4 +1,4 @@
-import { Type, Value } from "qvog-engine";
+import { Type, Value } from 'qvog-engine';
 
 /**
  * Base type for all expressions.

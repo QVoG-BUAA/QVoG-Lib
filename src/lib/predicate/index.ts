@@ -1,1 +1,1 @@
-export * from "./Predicates";
+export * from './Predicates';

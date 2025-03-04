@@ -1,4 +1,4 @@
-import { Value } from "qvog-engine";
+import { Value } from 'qvog-engine';
 
 /**
  * Wildcard class for all reference values.
@@ -39,7 +39,7 @@ export class FieldReference extends Reference {
      * @returns `true` if the field reference is static, `false` otherwise.
      */
     isStatic(): boolean {
-        return typeof this.base === "string";
+        return typeof this.base === 'string';
     }
 
     /**

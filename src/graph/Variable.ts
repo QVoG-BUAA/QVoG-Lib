@@ -1,4 +1,4 @@
-import { Value } from "qvog-engine";
+import { Value } from 'qvog-engine';
 
 /**
  * Local variable defined in the program.

@@ -1,4 +1,4 @@
-import { LanguageSpecification } from "qvog-engine";
+import { LanguageSpecification } from 'qvog-engine';
 
 /**
  * Specification for Python language.

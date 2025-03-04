@@ -1,9 +1,9 @@
-import { BaseFlow, Column, FlowPath, IFlowDescriptorBuilder, Table, Value } from "qvog-engine";
+import { BaseFlow, Column, FlowPath, IFlowDescriptorBuilder, Table, Value } from 'qvog-engine';
 
-import { Flow } from "~/lib/flow/strategy";
-import { FlowFeatures } from "~/lib/flow/Defines";
-import { HamiltonFlow } from "~/lib/flow/strategy/HamiltonFlow";
-import { DfgTraverse, TraverseStrategy } from "~/lib/flow/strategy/TraverseStrategy";
+import { Flow } from '~/lib/flow/strategy';
+import { FlowFeatures } from '~/lib/flow/Defines';
+import { HamiltonFlow } from '~/lib/flow/strategy/HamiltonFlow';
+import { DfgTraverse, TraverseStrategy } from '~/lib/flow/strategy/TraverseStrategy';
 
 /**
  * Features for data flow.

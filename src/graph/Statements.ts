@@ -1,5 +1,5 @@
-import { Value } from "qvog-engine";
-import { InvokeExpr } from "./Expressions";
+import { Value } from 'qvog-engine';
+import { InvokeExpr } from './Expressions';
 
 /**
  * Base type for all statements.

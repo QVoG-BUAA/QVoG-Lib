@@ -1,8 +1,8 @@
-import { LanguageSpecification } from "qvog-engine";
+import { LanguageSpecification } from 'qvog-engine';
 
-import * as RULE from "./Rules";
+import * as RULE from './Rules';
 
-export * from "./Specifications";
+export * from './Specifications';
 
 /**
  * Specification for Ark TypeScript language.

@@ -1,4 +1,4 @@
-import { Value } from "qvog-engine";
+import { Value } from 'qvog-engine';
 
 /**
  * All constant values in the program.
@@ -31,7 +31,7 @@ export class Constant extends Value {
      * @returns Boolean value of the constant.
      */
     getBooleanValue(): boolean {
-        return this.value === "true";
+        return this.value === 'true';
     }
 
     /**

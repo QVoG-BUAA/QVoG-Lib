@@ -2,7 +2,7 @@
  * This file contains all AST specifications for the ArkTS language.
  */
 
-import { AstJson } from "qvog-engine";
+import { AstJson } from 'qvog-engine';
 
 //////////////////////////////////////////////////////////////////////
 //                           Values                                 //
@@ -101,11 +101,9 @@ export interface UnaryOperatorJson extends AstJson {
  * - InstanceInvoke
  * 
  * However, we omit the distinction between these types in the AST for simplicity.
- * 
- * FIXME: Differentiate between the three types of invocation statements?
  */
 export interface InvokeExprJson extends AstJson {
-    base?: AstJson;     // instance invoke only
+    base?: AstJson;
     name: string,
     args: AstJson[];
     type: AstJson;
