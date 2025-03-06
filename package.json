@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@kaciras/deasync": "^1.1.0",
-    "qvog-engine": "^0.1.1"
+    "qvog-engine": "^0.1.2"
   },
   "repository": {
     "type": "git",
