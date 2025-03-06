@@ -1,7 +1,7 @@
 {
   "name": "qvog-lib",
   "description": "QVoG library",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "lint": "eslint src --fix",
+    "lint": "eslint src test --fix",
     "test": "vitest run",
     "docs": "typedoc src/index.ts --out docs"
   },

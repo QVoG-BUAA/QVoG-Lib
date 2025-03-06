@@ -1,6 +1,6 @@
-import { expect, test } from "vitest";
+import { expect, test } from 'vitest';
 
-import { P } from "../../src/lib/predicate";
+import { P } from '../../src/lib/predicate';
 
 class A {
     public b: B;
@@ -30,7 +30,7 @@ class C {
     }
 }
 
-test("Predicate test", () => {
+test('Predicate test', () => {
     const a1 = new A(1, 2, 3);
     const a2 = new A(4, 5, 6);
 

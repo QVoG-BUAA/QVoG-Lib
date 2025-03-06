@@ -1,17 +1,11 @@
 # QVoG Standard Library
 
+Query library built on top of QVoG Engine, providing a set of predefined queries for vulnerability detection.
+
 > [!WARNING]
-> THIS PROJECT IS A WORK IN PROGRESS
-
-QVoG Engine's standard query library.
-
-> [!NOTE]
-> Use Node.js 22 or higher, it seems to have some issues with older versions.
+> Node.js 22 or higher required.
 
 ## Build
-
-> [!NOTE]
-> Make sure you have [qvog-engine](https://github.com/QVoG-BUAA/QVoG-Engine-TS) linked as local module.
 
 To initialize the project, run the following command:
 
@@ -19,13 +13,13 @@ To initialize the project, run the following command:
 npm install
 ```
 
-If you have `qvog-engine` as a local module, run the following command next to link your local one:
+If you have `qvog-engine` as a local module, run the following command to link your local one:
 
 ```bash
 npm link qvog-engine
 ```
 
-Then, to build the project, run the following command:
+Then, run the following command to build the project:
 
 ```bash
 npm run build
@@ -45,7 +39,7 @@ npm install qvog-lib
 
 ### Local Package
 
-If you want to use the latest version of the library, you can build and link it locally. The package will be automatically updated when you build the project.
+If you want to build and use the latest version of the library, you can build and link it locally.
 
 ```bash
 npm link
