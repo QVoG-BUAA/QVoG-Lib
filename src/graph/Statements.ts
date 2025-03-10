@@ -49,8 +49,12 @@ export class AssignStmt extends Statement {
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.target;
-        yield this.value;
+        for (const v of this.target.stream()) {
+            yield v;
+        }
+        for (const v of this.value.stream()) {
+            yield v;
+        }
     }
 }
 
@@ -80,7 +84,9 @@ export class InvokeStmt extends Statement {
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.expression;
+        for (const v of this.expression.stream()) {
+            yield v;
+        }
     }
 }
 
@@ -118,7 +124,9 @@ export class ReturnStmt extends Statement {
     protected *elements(): IterableIterator<Value> {
         yield this;
         if (this.value) {
-            yield this.value;
+            for (const v of this.value.stream()) {
+                yield v;
+            }
         }
     }
 }
@@ -148,6 +156,8 @@ export class IfStmt extends Statement {
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.condition;
+        for (const v of this.condition.stream()) {
+            yield v;
+        }
     }
 }
