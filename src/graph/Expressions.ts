@@ -2,17 +2,16 @@ import { Type, Value } from 'qvog-engine';
 
 /**
  * Base type for all expressions.
- * 
+ *
  * You can use `instanceof Expression` to match all expressions.
- * 
+ *
  * @category Graph
  */
-export abstract class Expression extends Value {
-}
+export abstract class Expression extends Value {}
 
 /**
  * Arithmetic binary operator in the program.
- * 
+ *
  * @category Graph
  */
 export class BinaryOperator extends Expression {
@@ -29,7 +28,7 @@ export class BinaryOperator extends Expression {
 
     /**
      * Get the left operand of the binary operator.
-     * 
+     *
      * @returns The left operand.
      */
     getLeftOperand(): Value {
@@ -38,7 +37,7 @@ export class BinaryOperator extends Expression {
 
     /**
      * Get the right operand of the binary operator.
-     * 
+     *
      * @returns The right operand.
      */
     getRightOperand(): Value {
@@ -47,7 +46,7 @@ export class BinaryOperator extends Expression {
 
     /**
      * Get the operator of the binary operator.
-     * 
+     *
      * @returns The operator.
      */
     getOperator(): string {
@@ -63,7 +62,7 @@ export class BinaryOperator extends Expression {
 
 /**
  * Comparison binary operator in the program.
- * 
+ *
  * @category Graph
  */
 export class CompareOperator extends Expression {
@@ -80,7 +79,7 @@ export class CompareOperator extends Expression {
 
     /**
      * Get the left operand of the comparison operator.
-     * 
+     *
      * @returns The left operand.
      */
     getLeftOperand(): Value {
@@ -89,7 +88,7 @@ export class CompareOperator extends Expression {
 
     /**
      * Get the right operand of the comparison operator.
-     * 
+     *
      * @returns The right operand.
      */
     getRightOperand(): Value {
@@ -98,7 +97,7 @@ export class CompareOperator extends Expression {
 
     /**
      * Get the operator of the comparison operator.
-     * 
+     *
      * @returns The operator.
      */
     getOperator(): string {
@@ -114,7 +113,7 @@ export class CompareOperator extends Expression {
 
 /**
  * Unary operator in the program.
- * 
+ *
  * @category Graph
  */
 export class UnaryOperator extends Expression {
@@ -129,7 +128,7 @@ export class UnaryOperator extends Expression {
 
     /**
      * Get the operand of the unary operator.
-     * 
+     *
      * @returns The operand.
      */
     getOperand(): Value {
@@ -138,7 +137,7 @@ export class UnaryOperator extends Expression {
 
     /**
      * Get the operator of the unary operator.
-     * 
+     *
      * @returns The operator.
      */
     getOperator(): string {
@@ -153,13 +152,13 @@ export class UnaryOperator extends Expression {
 
 /**
  * Invocation expression.
- * 
+ *
  * This can be regular function call, or method call on an object.
  * If it is a method call, use {@link InvokeExpr.getBase | `getBase`} to get the
  * object, and {@link InvokeExpr.getTarget | `getTarget`} to get the method name.
  * Otherwise, {@link InvokeExpr.getBase | `getBase`} will return `undefined`, and
  * you can use {@link InvokeExpr.getTarget | `getTarget`} to get the function name.
- * 
+ *
  * @category Graph
  */
 export class InvokeExpr extends Expression {
@@ -177,7 +176,7 @@ export class InvokeExpr extends Expression {
     /**
      * Get the base object of the invocation, which is the object that the method
      * is called on.
-     * 
+     *
      * @returns The base object, or `undefined` if it is a regular function call.
      */
     getBase(): Value | undefined {
@@ -185,17 +184,17 @@ export class InvokeExpr extends Expression {
     }
 
     /**
-    * Get the target of the invocation, which is the function name that is being called.
-    * 
-    * @returns The target function name.
-    */
+     * Get the target of the invocation, which is the function name that is being called.
+     *
+     * @returns The target function name.
+     */
     getTarget(): string {
         return this.target;
     }
 
     /**
      * Get the number of arguments passed to the function.
-     * 
+     *
      * @returns The number of arguments.
      */
     getArgsCount(): number {
@@ -204,7 +203,7 @@ export class InvokeExpr extends Expression {
 
     /**
      * Get all arguments passed to the function.
-     * 
+     *
      * @returns The arguments passed to the function.
      */
     getArgs(): Value[] {
@@ -213,7 +212,7 @@ export class InvokeExpr extends Expression {
 
     /**
      * Get the argument at the specified index.
-     * 
+     *
      * @param index Index of the argument to get.
      * @returns The argument at the specified index.
      */
@@ -234,11 +233,11 @@ export class InvokeExpr extends Expression {
 
 /**
  * New expression.
- * 
+ *
  * Can be new object creation, or array creation.
  * If is an array creation, use {@link NewExpr.getSize | `getSize`} to get the size
  * of the array. Otherwise, {@link NewExpr.getSize | `getSize`} will return `undefined`.
- * 
+ *
  * @category Graph
  */
 export class NewExpr extends Expression {
@@ -251,7 +250,7 @@ export class NewExpr extends Expression {
 
     /**
      * Get the size of the array being created.
-     * 
+     *
      * @returns The size of the array, or `undefined` if it is an object creation.
      */
     getSize(): Value | undefined {
@@ -281,7 +280,7 @@ export class InstanceOfExpr extends Expression {
 
     /**
      * Get the object to test.
-     * 
+     *
      * @returns The object to test.
      */
     getObject(): Value {
@@ -290,7 +289,7 @@ export class InstanceOfExpr extends Expression {
 
     /**
      * Get the type to test against.
-     * 
+     *
      * @returns The type.
      */
     getTestType(): Type {
@@ -300,5 +299,31 @@ export class InstanceOfExpr extends Expression {
     protected *elements(): IterableIterator<Value> {
         yield this;
         yield this.object;
+    }
+}
+
+/**
+ * @category Graph
+ */
+export class TypeOfExpr extends Expression {
+    private operand: Value;
+
+    constructor(identifier: string, operand: Value) {
+        super(identifier);
+        this.operand = operand;
+    }
+
+    /**
+     * Get the operand of this typeof expression.
+     *
+     * @returns The operand.
+     */
+    getOperand(): Value {
+        return this.operand;
+    }
+
+    protected *elements(): IterableIterator<Value> {
+        yield this;
+        yield this.operand;
     }
 }

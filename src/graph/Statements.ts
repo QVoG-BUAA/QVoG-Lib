@@ -3,9 +3,9 @@ import { InvokeExpr } from './Expressions';
 
 /**
  * Base type for all statements.
- * 
+ *
  * You can use `instanceof Statement` to match all statements.
- * 
+ *
  * @category Graph
  */
 export class Statement extends Value {
@@ -16,7 +16,7 @@ export class Statement extends Value {
 
 /**
  * Assignment statement.
- * 
+ *
  * @category Graph
  */
 export class AssignStmt extends Statement {
@@ -31,7 +31,7 @@ export class AssignStmt extends Statement {
 
     /**
      * Get the target of the assignment, which is the value that is being assigned to.
-     * 
+     *
      * @returns The target value.
      */
     getTarget(): Value {
@@ -40,7 +40,7 @@ export class AssignStmt extends Statement {
 
     /**
      * Get the value that is being assigned.
-     * 
+     *
      * @returns The value.
      */
     getValue(): Value {
@@ -60,9 +60,9 @@ export class AssignStmt extends Statement {
 
 /**
  * Invocation statement, i.e. a function call.
- * 
+ *
  * FIXME: Can we assume that invoke statement only contains invoke expression?
- * 
+ *
  * @category Graph
  */
 export class InvokeStmt extends Statement {
@@ -75,7 +75,7 @@ export class InvokeStmt extends Statement {
 
     /**
      * Get the invocation expression.
-     * 
+     *
      * @returns The invocation expression.
      */
     getExpression(): InvokeExpr {
@@ -92,7 +92,7 @@ export class InvokeStmt extends Statement {
 
 /**
  * Return statement with an optional return value.
- * 
+ *
  * @category Graph
  */
 export class ReturnStmt extends Statement {
@@ -105,7 +105,7 @@ export class ReturnStmt extends Statement {
 
     /**
      * Check if the return statement has a return value.
-     * 
+     *
      * @returns `true` if the return statement has a value, `false` otherwise.
      */
     hasValue(): boolean {
@@ -114,7 +114,7 @@ export class ReturnStmt extends Statement {
 
     /**
      * Get the return value.
-     * 
+     *
      * @returns The return value, or undefined if there is no return value.
      */
     getValue(): Value | undefined {
@@ -131,10 +131,9 @@ export class ReturnStmt extends Statement {
     }
 }
 
-
 /**
  * If statement.
- * 
+ *
  * @category Graph
  */
 export class IfStmt extends Statement {
@@ -147,7 +146,7 @@ export class IfStmt extends Statement {
 
     /**
      * Get the condition expression.
-     * 
+     *
      * @returns The condition expression.
      */
     getCondition(): Value {

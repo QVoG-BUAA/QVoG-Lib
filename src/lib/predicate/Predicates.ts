@@ -1,32 +1,32 @@
 /**
  * A generic predicate type.
- * 
+ *
  * It means by giving a value of type T, it returns a boolean indicating
  * whether the value satisfies the predicate.
- * 
+ *
  * @typeParam T The type of the value.
- * 
+ *
  * @category Predicate
  */
 type Predicate<T> = (value: T) => boolean;
 
 /**
  * A generic field function type.
- * 
+ *
  * It means by giving a value of type T, it returns field of value of type U.
- * 
+ *
  * @typeParam T The type of the value.
  * @typeParam U The type of the field.
- * 
+ *
  * @category Predicate
  */
 type FieldFn<T, U> = (value: T) => U;
 
 /**
  * Initial chainable predicate object.
- * 
+ *
  * @typeParam U The type of the value.
- * 
+ *
  * @category Predicate
  */
 export class PImpl<U> {
@@ -38,7 +38,7 @@ export class PImpl<U> {
 
     /**
      * Apply the predicate to a value.
-     * 
+     *
      * @param value The value to test.
      * @returns `true` if the value satisfies the predicate, otherwise `false`.
      */
@@ -48,13 +48,13 @@ export class PImpl<U> {
 
     /**
      * Chain another predicate with AND operator.
-     * 
+     *
      * If `field` is not provided, it will continue to use the current value
      * as the subject of the predicate.
-     * 
+     *
      * @typeParam V The type of the field.
      * @typeParam W Any type.
-     * 
+     *
      * @param predicate Predicate.
      * @param field Field function.
      * @returns Chainable predicate object.
@@ -63,24 +63,20 @@ export class PImpl<U> {
         if (!field) {
             field = (value: U): V => value as unknown as V;
         }
-        const fn = ((predicate instanceof PImpl) || (predicate instanceof QImpl))
-            ? (v: V): boolean => predicate.test(v)
-            : predicate;
-        return new QImpl<U, V>(
-            (value: U) => this.predicate(value) && fn(field(value)),
-            field
-        );
+        const fn =
+            predicate instanceof PImpl || predicate instanceof QImpl ? (v: V): boolean => predicate.test(v) : predicate;
+        return new QImpl<U, V>((value: U) => this.predicate(value) && fn(field(value)), field);
     }
 
     /**
      * Chain another predicate with OR operator.
-     * 
+     *
      * If `field` is not provided, it will continue to use the current value
      * as the subject of the predicate.
-     * 
+     *
      * @typeParam V The type of the field.
      * @typeParam W Any type.
-     * 
+     *
      * @param predicate Predicate.
      * @param field Field function.
      * @returns Chainable predicate object.
@@ -89,24 +85,20 @@ export class PImpl<U> {
         if (!field) {
             field = (value: U): V => value as unknown as V;
         }
-        const fn = ((predicate instanceof PImpl) || (predicate instanceof QImpl))
-            ? (v: V): boolean => predicate.test(v)
-            : predicate;
-        return new QImpl<U, V>(
-            (value: U) => this.predicate(value) || fn(field(value)),
-            field
-        );
+        const fn =
+            predicate instanceof PImpl || predicate instanceof QImpl ? (v: V): boolean => predicate.test(v) : predicate;
+        return new QImpl<U, V>((value: U) => this.predicate(value) || fn(field(value)), field);
     }
 }
 
 /**
  * A chainable predicate object.
- * 
+ *
  * It support a predicate chain from type U to type V.
- * 
+ *
  * @typeParam U The initial type of the value.
  * @typeParam V The current type of the value.
- * 
+ *
  * @category Predicate
  */
 export class QImpl<U, V> {
@@ -120,7 +112,7 @@ export class QImpl<U, V> {
 
     /**
      * Apply the predicate to a value.
-     * 
+     *
      * @param value The value to test.
      * @returns `true` if the value satisfies the predicate, otherwise `false`.
      */
@@ -130,13 +122,13 @@ export class QImpl<U, V> {
 
     /**
      * Chain another predicate with AND operator.
-     * 
+     *
      * If `field` is not provided, it will continue to use the current value
      * as the subject of the predicate.
-     * 
+     *
      * @typeParam W The type of the field.
      * @typeParam X Any type.
-     * 
+     *
      * @param predicate Predicate.
      * @param field Field function.
      * @returns Chainable predicate object.
@@ -145,9 +137,8 @@ export class QImpl<U, V> {
         if (!field) {
             field = (value: V): W => value as unknown as W;
         }
-        const fn = ((predicate instanceof PImpl) || (predicate instanceof QImpl))
-            ? (v: W): boolean => predicate.test(v)
-            : predicate;
+        const fn =
+            predicate instanceof PImpl || predicate instanceof QImpl ? (v: W): boolean => predicate.test(v) : predicate;
         return new QImpl<U, W>(
             (value: U) => this.predicate(value) && fn(field(this.field(value))),
             (value: U) => field(this.field(value))
@@ -156,13 +147,13 @@ export class QImpl<U, V> {
 
     /**
      * Chain another predicate with OR operator.
-     * 
+     *
      * If `field` is not provided, it will continue to use the current value
      * as the subject of the predicate.
-     * 
+     *
      * @typeParam W The type of the field.
      * @typeParam X Any type.
-     * 
+     *
      * @param predicate Predicate.
      * @param field Field function.
      * @returns Chainable predicate object.
@@ -171,9 +162,8 @@ export class QImpl<U, V> {
         if (!field) {
             field = (value: V): W => value as unknown as W;
         }
-        const fn = ((predicate instanceof PImpl) || (predicate instanceof QImpl))
-            ? (v: W): boolean => predicate.test(v)
-            : predicate;
+        const fn =
+            predicate instanceof PImpl || predicate instanceof QImpl ? (v: W): boolean => predicate.test(v) : predicate;
         return new QImpl<U, W>(
             (value: U) => this.predicate(value) || fn(field(this.field(value))),
             (value: U) => field(this.field(value))
@@ -183,7 +173,7 @@ export class QImpl<U, V> {
 
 /**
  * Function wrapper for chainable predicate object.
- * 
+ *
  * @param predicate The initial predicate.
  * @returns A chainable predicate object.
  */

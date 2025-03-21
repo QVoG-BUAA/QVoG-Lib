@@ -95,16 +95,16 @@ export interface UnaryOperatorJson extends AstJson {
 
 /**
  * There is actually three types of invocation statements in ArkTS:
- * 
+ *
  * - PtrInvoke
  * - StaticInvoke
  * - InstanceInvoke
- * 
+ *
  * However, we omit the distinction between these types in the AST for simplicity.
  */
 export interface InvokeExprJson extends AstJson {
     base?: AstJson;
-    name: string,
+    name: string;
     args: AstJson[];
     type: AstJson;
 }
@@ -117,5 +117,10 @@ export interface NewExprJson extends AstJson {
 export interface InstanceOfExprJson extends AstJson {
     op: AstJson;
     checkType: AstJson;
+    type: AstJson;
+}
+
+export interface TypeOfExprJson extends AstJson {
+    op: AstJson;
     type: AstJson;
 }

@@ -6,9 +6,9 @@ import { CfgTraverse, DfgTraverse, TraverseStrategy } from '~/lib/flow/strategy/
 
 /**
  * Features for taint flow.
- * 
+ *
  * Taint flow involves both data flow and control flow.
- * 
+ *
  * @category Flow
  */
 export interface TaintFlowFeatures extends FlowFeatures {
@@ -30,13 +30,13 @@ export interface TaintFlowFeatureOptions extends FlowFeatures {
 
 /**
  * Taint flow descriptor.
- * 
+ *
  * By default, it uses {@link EulerFlow | `EulerFlow`} to traverse the graph.
  * First, it checks data flow reachability from the source to the sink.
  * With the result source-sink pairs, it then checks control flow reachability.
  * If the source-sink pair is reachable in control flow, it adds the path to the
  * result.
- * 
+ *
  * @category Flow
  */
 export class TaintFlow extends BaseFlow {
@@ -44,7 +44,7 @@ export class TaintFlow extends BaseFlow {
         dataFlow: new EulerFlow(),
         dataFlowStrategy: new DfgTraverse(),
         controlFlow: new EulerFlow(),
-        controlFlowStrategy: new CfgTraverse()
+        controlFlowStrategy: new CfgTraverse(),
     };
 
     configure(features: TaintFlowFeatureOptions): IFlowDescriptorBuilder {
@@ -52,7 +52,7 @@ export class TaintFlow extends BaseFlow {
             dataFlow: features.dataFlow ?? this.features.dataFlow,
             dataFlowStrategy: features.dataFlowStrategy ?? this.features.dataFlowStrategy,
             controlFlow: features.controlFlow ?? this.features.controlFlow,
-            controlFlowStrategy: features.controlFlowStrategy ?? this.features.controlFlowStrategy
+            controlFlowStrategy: features.controlFlowStrategy ?? this.features.controlFlowStrategy,
         };
         return this;
     }
@@ -75,7 +75,7 @@ export class TaintFlow extends BaseFlow {
     }
 
     private existsDataFlow(current: Value, loose: Column, narrow: Column): void {
-        this.features.dataFlow.apply(current, this.features.dataFlowStrategy).forEach(stream => {
+        this.features.dataFlow.apply(current, this.features.dataFlowStrategy).forEach((stream) => {
             for (const [value, _] of stream) {
                 if (loose.containsValue(value)) {
                     narrow.addValue(value);
@@ -85,18 +85,20 @@ export class TaintFlow extends BaseFlow {
     }
 
     private existsControlFlow(current: Value, source: Column, sink: Column, barrier: Column, result: Table): void {
-        this.features.controlFlow.apply(current, this.features.controlFlowStrategy).forEach(stream => {
+        this.features.controlFlow.apply(current, this.features.controlFlowStrategy).forEach((stream) => {
             const path = new FlowPath();
             for (const [value, _] of stream) {
                 path.add(value);
                 if (barrier.containsValue(value)) {
                     break;
                 } else if (sink.containsValue(value)) {
-                    result.addRow(new Map<string, any>([
-                        [this.property.sourceAlias, current],
-                        [this.property.sinkAlias, value],
-                        [this.alias, path.clone()]
-                    ]));
+                    result.addRow(
+                        new Map<string, any>([
+                            [this.property.sourceAlias, current],
+                            [this.property.sinkAlias, value],
+                            [this.alias, path.clone()],
+                        ])
+                    );
                 }
             }
         });

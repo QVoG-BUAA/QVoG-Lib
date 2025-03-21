@@ -1,9 +1,8 @@
 import { Type } from 'qvog-engine';
-import { InvalidType } from 'qvog-engine';
 
 /**
  * In some languages, e.g. TypeScript, there is `any` type that can be anything.
- * 
+ *
  * @category Graph
  */
 export class AnyType extends Type {
@@ -14,10 +13,10 @@ export class AnyType extends Type {
 
 /**
  * Unknown type represents a type that cannot be determined.
- * 
+ *
  * It is not `InvalidType`, which cannot be parsed from
  * the AST JSON.
- * 
+ *
  * @category Graph
  */
 export class UnknownType extends Type {
@@ -28,7 +27,7 @@ export class UnknownType extends Type {
 
 /**
  * Represents built-in types like `number`, `string`, etc.
- * 
+ *
  * @category Graph
  */
 export abstract class PrimitiveType extends Type {
@@ -84,7 +83,7 @@ export class UndefinedType extends PrimitiveType {
 
 /**
  * Array type is a composite type that contains elements of a specific type.
- * 
+ *
  * @category Graph
  */
 export class ArrayType extends Type {
@@ -99,7 +98,7 @@ export class ArrayType extends Type {
 
     /**
      * Get the element type of the array.
-     * 
+     *
      * @returns The type of the elements in the array.
      */
     getElementType(): Type {
@@ -108,7 +107,7 @@ export class ArrayType extends Type {
 
     /**
      * Get the dimension of the array.
-     * 
+     *
      * @returns The number of dimensions of the array.
      */
     getDimension(): number {
@@ -118,7 +117,7 @@ export class ArrayType extends Type {
 
 /**
  * Tuple type is a composite type that contains elements of different types.
- * 
+ *
  * @category Graph
  */
 export class TupleType extends Type {
@@ -131,7 +130,7 @@ export class TupleType extends Type {
 
     /**
      * Get the size of the tuple.
-     * 
+     *
      * @returns The number of elements in the tuple.
      */
     getSize(): number {
@@ -140,7 +139,7 @@ export class TupleType extends Type {
 
     /**
      * Get all element types of the tuple.
-     * 
+     *
      * @returns All element types of the tuple.
      */
     getElementTypes(): Type[] {
@@ -149,7 +148,7 @@ export class TupleType extends Type {
 
     /**
      * Get the type of the element at the given index.
-     * 
+     *
      * @param index Index of the element type in the tuple.
      * @returns The type of the element at the given index.
      */
@@ -160,7 +159,7 @@ export class TupleType extends Type {
 
 /**
  * Union type.
- * 
+ *
  * @category Graph
  */
 export class UnionType extends Type {
@@ -173,7 +172,7 @@ export class UnionType extends Type {
 
     /**
      * Get the number of types in the union type.
-     * 
+     *
      * @returns The number of types in the union type.
      */
     getTypesCount(): number {
@@ -182,7 +181,7 @@ export class UnionType extends Type {
 
     /**
      * Get all types in the union type.
-     * 
+     *
      * @returns All types in the union type.
      */
     getTypes(): Type[] {
@@ -191,9 +190,9 @@ export class UnionType extends Type {
 
     /**
      * Get the type at the specified index.
-     * 
+     *
      * This may not reflect the original order of the types in the union.
-     * 
+     *
      * @param index Index of the type to get.
      * @returns The type at the specified index.
      */
@@ -204,9 +203,9 @@ export class UnionType extends Type {
 
 /**
  * Function type represents a function signature.
- * 
+ *
  * Currently is empty.
- * 
+ *
  * @category Graph
  */
 export class FunctionType extends Type {
@@ -217,7 +216,7 @@ export class FunctionType extends Type {
 
 /**
  * Class type is the name of the class.
- * 
+ *
  * @category Graph
  */
 export class ClassType extends Type {

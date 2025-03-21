@@ -2,12 +2,12 @@ import { Value } from 'qvog-engine';
 
 /**
  * All constant values in the program.
- * 
+ *
  * The value of the constant is stored as a string, you can call specific
  * functions to convert it to the desired type.
  * Before accessing the value with concrete type, you may want to use `getType()`
  * to check the type of the constant.
- * 
+ *
  * @category Graph
  */
 export class Constant extends Value {
@@ -20,7 +20,7 @@ export class Constant extends Value {
 
     /**
      * Get the value of the constant.
-     * 
+     *
      * @returns The value.
      */
     getValue(): string {
@@ -50,7 +50,7 @@ export class Constant extends Value {
 
     /**
      * This is the same as {@link getValue | `getValue`}.
-     * 
+     *
      * @returns String value of the constant.
      */
     getStringValue(): string {
