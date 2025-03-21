@@ -224,3 +224,14 @@ export class ClassType extends Type {
         super(identifier, name);
     }
 }
+
+/**
+ * Void type.
+ *
+ * @category Graph
+ */
+export class VoidType extends Type {
+    constructor(identifier: string, name: string) {
+        super(identifier, name);
+    }
+}

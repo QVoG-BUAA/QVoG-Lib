@@ -5,7 +5,7 @@ import { Value } from 'qvog-engine';
  *
  * @category Graph
  */
-export class Reference extends Value {
+export abstract class Reference extends Value {
     constructor(identifier: string) {
         super(identifier);
     }

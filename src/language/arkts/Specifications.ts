@@ -41,9 +41,10 @@ export interface TypeJson extends AstJson {
     name: string;
 }
 
-export interface ArrayTypeJson extends TypeJson {
+// ArrayType has no name.
+export interface ArrayTypeJson extends AstJson {
     baseType: AstJson;
-    dimensions: number;
+    dimension: number;
 }
 
 export interface TupleTypeJson extends TypeJson {
@@ -86,11 +87,13 @@ export interface BinaryOperatorJson extends AstJson {
     op1: AstJson;
     op2: AstJson;
     operator: string;
+    type: AstJson;
 }
 
 export interface UnaryOperatorJson extends AstJson {
     op: AstJson;
     operator: string;
+    type: AstJson;
 }
 
 /**

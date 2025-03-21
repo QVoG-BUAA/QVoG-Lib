@@ -32,6 +32,7 @@ import {
     UndefinedType,
     UnionType,
     UnknownType,
+    VoidType,
 } from '~/graph/Types';
 
 import * as JSON from './Specifications';
@@ -66,7 +67,7 @@ export const ConstantRule: LanguageValueRule<Constant> = {
 };
 
 export const FieldReferenceRule: LanguageValueRule<FieldReference> = {
-    types: 'ArkInstanceFieldRef',
+    types: ['ArkInstanceFieldRef', 'ArkStaticFieldRef'],
     build(json: JSON.FieldReferenceJson, factory: ValueFactory): FieldReference {
         const base = typeof json.base === 'string' ? json.base : factory.buildValue(json.base);
         const value = new FieldReference(json._identifier, base, json.name);
@@ -143,7 +144,7 @@ export const ArrayTypeRule: LanguageTypeRule<ArrayType> = {
     types: 'ArrayType',
     build(json: JSON.ArrayTypeJson, factory: ValueFactory): ArrayType {
         const elementType = factory.buildType(json.baseType);
-        return new ArrayType(json._identifier, json.name, elementType, json.dimensions);
+        return new ArrayType(json._identifier, 'array', elementType, json.dimension);
     },
 };
 
@@ -202,9 +203,14 @@ export const ReturnStmtRule: LanguageValueRule<ReturnStmt> = {
     types: ['ArkReturnVoidStmt', 'ArkReturnStmt'],
     build(json: JSON.ReturnStmtJson, factory: ValueFactory): ReturnStmt {
         if (json.op) {
-            return new ReturnStmt(json._identifier, factory.buildValue(json.op));
+            const operand = factory.buildValue(json.op);
+            const stmt = new ReturnStmt(json._identifier, operand);
+            stmt.setType(operand.getType());
+            return stmt;
         }
-        return new ReturnStmt(json._identifier);
+        const stmt = new ReturnStmt(json._identifier);
+        stmt.setType(new VoidType('VoidType', 'void'));
+        return stmt;
     },
 };
 
@@ -224,7 +230,9 @@ export const BinaryOperatorRule: LanguageValueRule<BinaryOperator> = {
     build(json: JSON.BinaryOperatorJson, factory: ValueFactory): BinaryOperator {
         const leftOperand = factory.buildValue(json.op1);
         const rightOperand = factory.buildValue(json.op2);
-        return new BinaryOperator(json._identifier, leftOperand, rightOperand, json.operator);
+        const expression = new BinaryOperator(json._identifier, leftOperand, rightOperand, json.operator);
+        expression.setType(factory.buildType(json.type));
+        return expression;
     },
 };
 
@@ -233,15 +241,19 @@ export const CompareOperatorRule: LanguageValueRule<CompareOperator> = {
     build(json: JSON.BinaryOperatorJson, factory: ValueFactory): CompareOperator {
         const leftOperand = factory.buildValue(json.op1);
         const rightOperand = factory.buildValue(json.op2);
-        return new CompareOperator(json._identifier, leftOperand, rightOperand, json.operator);
+        const expression = new CompareOperator(json._identifier, leftOperand, rightOperand, json.operator);
+        expression.setType(factory.buildType(json.type));
+        return expression;
     },
 };
 
 export const UnaryOperatorRule: LanguageValueRule<UnaryOperator> = {
-    types: 'ArkUnaryOperator',
+    types: 'ArkUnopExpr',
     build(json: JSON.UnaryOperatorJson, factory: ValueFactory): UnaryOperator {
         const operand = factory.buildValue(json.op);
-        return new UnaryOperator(json._identifier, operand, json.operator);
+        const expression = new UnaryOperator(json._identifier, operand, json.operator);
+        expression.setType(factory.buildType(json.type));
+        return expression;
     },
 };
 
