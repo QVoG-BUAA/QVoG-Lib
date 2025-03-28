@@ -1,3 +1,5 @@
+import { Value } from 'qvog-engine';
+
 /**
  * A generic predicate type.
  *
@@ -8,7 +10,7 @@
  *
  * @category Predicate
  */
-type Predicate<T> = (value: T) => boolean;
+export type Predicate<T> = (value: T) => boolean;
 
 /**
  * A generic field function type.
@@ -88,6 +90,15 @@ export class PImpl<U> {
         const fn =
             predicate instanceof PImpl || predicate instanceof QImpl ? (v: V): boolean => predicate.test(v) : predicate;
         return new QImpl<U, V>((value: U) => this.predicate(value) || fn(field(value)), field);
+    }
+
+    /**
+     * Get the chained predicate.
+     *
+     * @returns The predicate function.
+     */
+    done(): Predicate<U> {
+        return this.predicate;
     }
 }
 
@@ -169,14 +180,25 @@ export class QImpl<U, V> {
             (value: U) => field(this.field(value))
         );
     }
+
+    /**
+     * Get the chained predicate.
+     *
+     * @returns The predicate function.
+     */
+    done(): Predicate<U> {
+        return this.predicate;
+    }
 }
 
 /**
  * Function wrapper for chainable predicate object.
  *
+ * @typeParam T The type of the value.
+ *
  * @param predicate The initial predicate.
  * @returns A chainable predicate object.
  */
-export function P<U>(predicate: Predicate<U>): PImpl<U> {
-    return new PImpl<U>(predicate);
+export function P<T = Value>(predicate: Predicate<T>): PImpl<T> {
+    return new PImpl<T>(predicate);
 }

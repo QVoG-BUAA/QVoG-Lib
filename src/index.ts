@@ -12,6 +12,9 @@
  *
  * @categoryDescription Language
  * Support for different programming languages.
+ *
+ * @categoryDescription Sugar
+ * Sugar for the DSL API.
  */
 
 export * from './graph';
