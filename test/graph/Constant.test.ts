@@ -67,21 +67,21 @@ test('Variable Parsing Test', () => {
 
     constant = factory.buildValue(BOOLEAN_CONSTANT_JSON);
     expect(constant instanceof Constant).toBe(true);
-    expect(constant.getBooleanValue()).toBe(true);
+    expect(constant.booleanValue).toBe(true);
 
     constant = factory.buildValue(NUMBER_CONSTANT_JSON);
     expect(constant instanceof Constant).toBe(true);
-    expect(constant.getIntValue()).toBe(1);
+    expect(constant.intValue).toBe(1);
 
     constant = factory.buildValue(STRING_CONSTANT_JSON);
     expect(constant instanceof Constant).toBe(true);
-    expect(constant.getStringValue()).toBe('hello there');
+    expect(constant.stringValue).toBe('hello there');
 
     constant = factory.buildValue(NULL_CONSTANT_JSON);
     expect(constant instanceof Constant).toBe(true);
-    expect(constant.getValue()).toBe('null');
+    expect(constant.value).toBe('null');
 
     constant = factory.buildValue(UNDEFINED_CONTSANT_JSON);
     expect(constant instanceof Constant).toBe(true);
-    expect(constant.getValue()).toBe('undefined');
+    expect(constant.value).toBe('undefined');
 });

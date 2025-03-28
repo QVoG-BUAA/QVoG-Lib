@@ -15,15 +15,15 @@ export abstract class Expression extends Value {}
  * @category Graph
  */
 export class BinaryOperator extends Expression {
-    private leftOperand: Value;
-    private rightOperand: Value;
-    private operator: string;
+    private _leftOperand: Value;
+    private _rightOperand: Value;
+    private _operator: string;
 
     constructor(identifier: string, leftOperand: Value, rightOperand: Value, operator: string) {
         super(identifier);
-        this.leftOperand = leftOperand;
-        this.rightOperand = rightOperand;
-        this.operator = operator;
+        this._leftOperand = leftOperand;
+        this._rightOperand = rightOperand;
+        this._operator = operator;
     }
 
     /**
@@ -31,8 +31,8 @@ export class BinaryOperator extends Expression {
      *
      * @returns The left operand.
      */
-    getLeftOperand(): Value {
-        return this.leftOperand;
+    public get lhs(): Value {
+        return this._leftOperand;
     }
 
     /**
@@ -40,8 +40,8 @@ export class BinaryOperator extends Expression {
      *
      * @returns The right operand.
      */
-    getRightOperand(): Value {
-        return this.rightOperand;
+    public get rhs(): Value {
+        return this._rightOperand;
     }
 
     /**
@@ -49,14 +49,14 @@ export class BinaryOperator extends Expression {
      *
      * @returns The operator.
      */
-    getOperator(): string {
-        return this.operator;
+    public get operator(): string {
+        return this._operator;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.leftOperand;
-        yield this.rightOperand;
+        yield this._leftOperand;
+        yield this._rightOperand;
     }
 }
 
@@ -66,15 +66,15 @@ export class BinaryOperator extends Expression {
  * @category Graph
  */
 export class CompareOperator extends Expression {
-    private leftOperand: Value;
-    private rightOperand: Value;
-    private operator: string;
+    private _leftOperand: Value;
+    private _rightOperand: Value;
+    private _operator: string;
 
     constructor(identifier: string, leftOperand: Value, rightOperand: Value, operator: string) {
         super(identifier);
-        this.leftOperand = leftOperand;
-        this.rightOperand = rightOperand;
-        this.operator = operator;
+        this._leftOperand = leftOperand;
+        this._rightOperand = rightOperand;
+        this._operator = operator;
     }
 
     /**
@@ -82,8 +82,8 @@ export class CompareOperator extends Expression {
      *
      * @returns The left operand.
      */
-    getLeftOperand(): Value {
-        return this.leftOperand;
+    public get lhs(): Value {
+        return this._leftOperand;
     }
 
     /**
@@ -91,8 +91,8 @@ export class CompareOperator extends Expression {
      *
      * @returns The right operand.
      */
-    getRightOperand(): Value {
-        return this.rightOperand;
+    public get rhs(): Value {
+        return this._rightOperand;
     }
 
     /**
@@ -100,14 +100,14 @@ export class CompareOperator extends Expression {
      *
      * @returns The operator.
      */
-    getOperator(): string {
-        return this.operator;
+    public get operator(): string {
+        return this._operator;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.leftOperand;
-        yield this.rightOperand;
+        yield this._leftOperand;
+        yield this._rightOperand;
     }
 }
 
@@ -117,13 +117,13 @@ export class CompareOperator extends Expression {
  * @category Graph
  */
 export class UnaryOperator extends Expression {
-    private operand: Value;
-    private operator: string;
+    private _operand: Value;
+    private _operator: string;
 
     constructor(identifier: string, operand: Value, operator: string) {
         super(identifier);
-        this.operand = operand;
-        this.operator = operator;
+        this._operand = operand;
+        this._operator = operator;
     }
 
     /**
@@ -131,8 +131,8 @@ export class UnaryOperator extends Expression {
      *
      * @returns The operand.
      */
-    getOperand(): Value {
-        return this.operand;
+    public get operand(): Value {
+        return this._operand;
     }
 
     /**
@@ -140,13 +140,13 @@ export class UnaryOperator extends Expression {
      *
      * @returns The operator.
      */
-    getOperator(): string {
-        return this.operator;
+    public get operator(): string {
+        return this._operator;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.operand;
+        yield this._operand;
     }
 }
 
@@ -241,11 +241,11 @@ export class InvokeExpr extends Expression {
  * @category Graph
  */
 export class NewExpr extends Expression {
-    private size?: Value;
+    private _size?: Value;
 
     constructor(identifier: string, size?: Value) {
         super(identifier);
-        this.size = size;
+        this._size = size;
     }
 
     /**
@@ -253,14 +253,14 @@ export class NewExpr extends Expression {
      *
      * @returns The size of the array, or `undefined` if it is an object creation.
      */
-    getSize(): Value | undefined {
-        return this.size;
+    public get size(): Value | undefined {
+        return this._size;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        if (this.size) {
-            yield this.size;
+        if (this._size) {
+            yield this._size;
         }
     }
 }
@@ -269,13 +269,13 @@ export class NewExpr extends Expression {
  * @category Graph
  */
 export class InstanceOfExpr extends Expression {
-    private object: Value;
-    private testType: Type;
+    private _object: Value;
+    private _testType: Type;
 
     constructor(identifier: string, object: Value, testType: Type) {
         super(identifier);
-        this.object = object;
-        this.testType = testType;
+        this._object = object;
+        this._testType = testType;
     }
 
     /**
@@ -283,8 +283,8 @@ export class InstanceOfExpr extends Expression {
      *
      * @returns The object to test.
      */
-    getObject(): Value {
-        return this.object;
+    public get object(): Value {
+        return this._object;
     }
 
     /**
@@ -292,13 +292,13 @@ export class InstanceOfExpr extends Expression {
      *
      * @returns The type.
      */
-    getTestType(): Type {
-        return this.testType;
+    public get testType(): Type {
+        return this._testType;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.object;
+        yield this._object;
     }
 }
 
@@ -306,11 +306,11 @@ export class InstanceOfExpr extends Expression {
  * @category Graph
  */
 export class TypeOfExpr extends Expression {
-    private operand: Value;
+    private _operand: Value;
 
     constructor(identifier: string, operand: Value) {
         super(identifier);
-        this.operand = operand;
+        this._operand = operand;
     }
 
     /**
@@ -318,12 +318,12 @@ export class TypeOfExpr extends Expression {
      *
      * @returns The operand.
      */
-    getOperand(): Value {
-        return this.operand;
+    public get operand(): Value {
+        return this._operand;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.operand;
+        yield this._operand;
     }
 }

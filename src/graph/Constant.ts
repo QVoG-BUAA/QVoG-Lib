@@ -11,11 +11,11 @@ import { Value } from 'qvog-engine';
  * @category Graph
  */
 export class Constant extends Value {
-    private value: string;
+    private _value: string;
 
     constructor(identifier: string, value: string) {
         super(identifier);
-        this.value = value;
+        this._value = value;
     }
 
     /**
@@ -23,29 +23,29 @@ export class Constant extends Value {
      *
      * @returns The value.
      */
-    getValue(): string {
-        return this.value;
+    public get value(): string {
+        return this._value;
     }
 
     /**
      * @returns Boolean value of the constant.
      */
-    getBooleanValue(): boolean {
-        return this.value === 'true';
+    public get booleanValue(): boolean {
+        return this._value === 'true';
     }
 
     /**
      * @returns Integer value of the constant.
      */
-    getIntValue(): number {
-        return parseInt(this.value);
+    public get intValue(): number {
+        return parseInt(this._value);
     }
 
     /**
      * @returns Float value of the constant.
      */
-    getNumberValue(): number {
-        return parseFloat(this.value);
+    public get numberValue(): number {
+        return parseFloat(this._value);
     }
 
     /**
@@ -53,7 +53,7 @@ export class Constant extends Value {
      *
      * @returns String value of the constant.
      */
-    getStringValue(): string {
-        return this.value;
+    public get stringValue(): string {
+        return this._value;
     }
 }

@@ -20,13 +20,13 @@ export class Statement extends Value {
  * @category Graph
  */
 export class AssignStmt extends Statement {
-    private target: Value;
-    private value: Value;
+    private _target: Value;
+    private _value: Value;
 
     constructor(identifier: string, target: Value, value: Value) {
         super(identifier);
-        this.target = target;
-        this.value = value;
+        this._target = target;
+        this._value = value;
     }
 
     /**
@@ -34,8 +34,8 @@ export class AssignStmt extends Statement {
      *
      * @returns The target value.
      */
-    getTarget(): Value {
-        return this.target;
+    public get target(): Value {
+        return this._target;
     }
 
     /**
@@ -43,16 +43,16 @@ export class AssignStmt extends Statement {
      *
      * @returns The value.
      */
-    getValue(): Value {
-        return this.value;
+    public get value(): Value {
+        return this._value;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        for (const v of this.target.stream()) {
+        for (const v of this._target.stream()) {
             yield v;
         }
-        for (const v of this.value.stream()) {
+        for (const v of this._value.stream()) {
             yield v;
         }
     }
@@ -66,11 +66,11 @@ export class AssignStmt extends Statement {
  * @category Graph
  */
 export class InvokeStmt extends Statement {
-    private expression: InvokeExpr;
+    private _expression: InvokeExpr;
 
     constructor(identifier: string, expression: InvokeExpr) {
         super(identifier);
-        this.expression = expression;
+        this._expression = expression;
     }
 
     /**
@@ -78,13 +78,13 @@ export class InvokeStmt extends Statement {
      *
      * @returns The invocation expression.
      */
-    getExpression(): InvokeExpr {
-        return this.expression;
+    public get expression(): InvokeExpr {
+        return this._expression;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        for (const v of this.expression.stream()) {
+        for (const v of this._expression.stream()) {
             yield v;
         }
     }
@@ -96,11 +96,11 @@ export class InvokeStmt extends Statement {
  * @category Graph
  */
 export class ReturnStmt extends Statement {
-    private value?: Value;
+    private _value?: Value;
 
     constructor(identifier: string, value?: Value) {
         super(identifier);
-        this.value = value;
+        this._value = value;
     }
 
     /**
@@ -109,7 +109,7 @@ export class ReturnStmt extends Statement {
      * @returns `true` if the return statement has a value, `false` otherwise.
      */
     hasValue(): boolean {
-        return this.value !== undefined;
+        return this._value !== undefined;
     }
 
     /**
@@ -117,14 +117,14 @@ export class ReturnStmt extends Statement {
      *
      * @returns The return value, or undefined if there is no return value.
      */
-    getValue(): Value | undefined {
-        return this.value;
+    public get value(): Value | undefined {
+        return this._value;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        if (this.value) {
-            for (const v of this.value.stream()) {
+        if (this._value) {
+            for (const v of this._value.stream()) {
                 yield v;
             }
         }
@@ -137,11 +137,11 @@ export class ReturnStmt extends Statement {
  * @category Graph
  */
 export class IfStmt extends Statement {
-    private condition: Value;
+    private _condition: Value;
 
     constructor(identifier: string, condition: Value) {
         super(identifier);
-        this.condition = condition;
+        this._condition = condition;
     }
 
     /**
@@ -149,13 +149,13 @@ export class IfStmt extends Statement {
      *
      * @returns The condition expression.
      */
-    getCondition(): Value {
-        return this.condition;
+    public get condition(): Value {
+        return this._condition;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        for (const v of this.condition.stream()) {
+        for (const v of this._condition.stream()) {
             yield v;
         }
     }

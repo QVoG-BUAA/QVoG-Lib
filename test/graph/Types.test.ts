@@ -17,7 +17,7 @@
  * - [x] union
  * - [x] function
  * - [x] class
- * - [ ] void
+ * - [x] void
  * - [ ] never
  * - [ ] alias
  * - [ ] generic
@@ -121,26 +121,26 @@ test('Type Parsing Test', () => {
 
     const arrayType: ArrayType = factory.buildType(ARRAY_TYPE_JSON);
     expect(arrayType instanceof ArrayType).toBe(true);
-    expect(arrayType.getElementType() instanceof AnyType).toBe(true);
-    expect(arrayType.getDimension()).toBe(1);
+    expect(arrayType.elementType instanceof AnyType).toBe(true);
+    expect(arrayType.dimension).toBe(1);
 
     const tupleType: TupleType = factory.buildType(TUPLE_TYPE_JSON);
     expect(tupleType instanceof TupleType).toBe(true);
-    expect(tupleType.getElementTypes().length).toBe(2);
-    expect(tupleType.getElementType(0) instanceof NumberType).toBe(true);
-    expect(tupleType.getElementType(1) instanceof StringType).toBe(true);
+    expect(tupleType.elementTypes.length).toBe(2);
+    expect(tupleType.elementTypes[0] instanceof NumberType).toBe(true);
+    expect(tupleType.elementTypes[1] instanceof StringType).toBe(true);
 
     const unionType: UnionType = factory.buildType(UNION_TYPE_JSON);
     expect(unionType instanceof UnionType).toBe(true);
-    expect(unionType.getTypes().length).toBe(2);
-    expect(unionType.getType(0) instanceof NumberType).toBe(true);
-    expect(unionType.getType(1) instanceof StringType).toBe(true);
+    expect(unionType.types.length).toBe(2);
+    expect(unionType.types[0] instanceof NumberType).toBe(true);
+    expect(unionType.types[1] instanceof StringType).toBe(true);
 
     const functionType: FunctionType = factory.buildType(FUNCTION_TYPE_JSON);
     expect(functionType instanceof FunctionType).toBe(true);
-    expect(functionType.getName()).toBe('@easytest/file.ts: %dflt.%AM0()');
+    expect(functionType.name).toBe('@easytest/file.ts: %dflt.%AM0()');
 
     const classType = factory.buildType(CLASS_TYPE_JSON);
     expect(classType instanceof ClassType).toBe(true);
-    expect(classType.getName()).toBe('@easytest/file.ts: TestObject');
+    expect(classType.name).toBe('@easytest/file.ts: TestObject');
 });

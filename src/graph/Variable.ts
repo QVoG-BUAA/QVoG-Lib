@@ -6,11 +6,11 @@ import { Value } from 'qvog-engine';
  * @category Graph
  */
 export class Variable extends Value {
-    private name: string;
+    private _name: string;
 
     constructor(identifier: string, name: string) {
         super(identifier);
-        this.name = name;
+        this._name = name;
     }
 
     /**
@@ -18,7 +18,7 @@ export class Variable extends Value {
      *
      * @returns The name.
      */
-    getName(): string {
-        return this.name;
+    public get name(): string {
+        return this._name;
     }
 }

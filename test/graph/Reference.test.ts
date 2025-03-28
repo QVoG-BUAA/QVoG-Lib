@@ -5,12 +5,11 @@
 import { expect, test } from 'vitest';
 import { ValueFactory } from 'qvog-engine';
 
-import { ArrayReference, FieldReference } from '../../src/graph/Reference';
-import { ArkTsSpecification } from '../../src/language/arkts';
-import { execPath } from 'process';
 import { Variable } from '../../src/graph/Variable';
-import { ArrayType, ClassType, NumberType } from '../../src/graph/Types';
 import { Constant } from '../../src/graph/Constant';
+import { ArkTsSpecification } from '../../src/language/arkts';
+import { ArrayType, ClassType, NumberType } from '../../src/graph/Types';
+import { ArrayReference, FieldReference } from '../../src/graph/Reference';
 
 const INSTANCE_FIELD_REFERENCE_JSON = {
     '_identifier': 'ArkInstanceFieldRef',
@@ -75,24 +74,24 @@ test('Reference Parsing Test', () => {
     reference = factory.buildValue(INSTANCE_FIELD_REFERENCE_JSON);
     expect(reference instanceof FieldReference).toBe(true);
     expect(reference.isStatic()).toBe(false);
-    expect(reference.getName()).toBe('a');
-    expect(reference.getType() instanceof NumberType).toBe(true);
-    expect(reference.getBase() instanceof Variable).toBe(true);
-    expect((reference.getBase() as Variable).getName()).toBe('obj');
-    expect((reference.getBase() as Variable).getType() instanceof ClassType).toBe(true);
+    expect(reference.name).toBe('a');
+    expect(reference.type instanceof NumberType).toBe(true);
+    expect(reference.base instanceof Variable).toBe(true);
+    expect((reference.base as Variable).name).toBe('obj');
+    expect((reference.base as Variable).type instanceof ClassType).toBe(true);
 
     reference = factory.buildValue(STATIC_FILED_REFERENCE_JSON);
     expect(reference instanceof FieldReference).toBe(true);
     expect(reference.isStatic()).toBe(true);
-    expect(reference.getName()).toBe('a');
-    expect(reference.getType() instanceof NumberType).toBe(true);
-    expect(reference.getBase()).toBe('StaticField');
+    expect(reference.name).toBe('a');
+    expect(reference.type instanceof NumberType).toBe(true);
+    expect(reference.base).toBe('StaticField');
 
     const arrayRef: ArrayReference = factory.buildValue(ARRAY_REFERENCE);
     expect(arrayRef instanceof ArrayReference).toBe(true);
-    expect(arrayRef.getType() instanceof NumberType).toBe(true);
-    expect(arrayRef.getBase() instanceof Variable).toBe(true);
-    expect((arrayRef.getBase() as Variable).getType() instanceof ArrayType).toBe(true);
-    expect(arrayRef.getIndex() instanceof Constant).toBe(true);
-    expect((arrayRef.getIndex() as Constant).getIntValue()).toBe(3);
+    expect(arrayRef.type instanceof NumberType).toBe(true);
+    expect(arrayRef.base instanceof Variable).toBe(true);
+    expect((arrayRef.base as Variable).type instanceof ArrayType).toBe(true);
+    expect(arrayRef.index instanceof Constant).toBe(true);
+    expect((arrayRef.index as Constant).intValue).toBe(3);
 });

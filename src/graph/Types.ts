@@ -87,13 +87,13 @@ export class UndefinedType extends PrimitiveType {
  * @category Graph
  */
 export class ArrayType extends Type {
-    private elementType: Type;
-    private dimension: number;
+    private _elementType: Type;
+    private _dimension: number;
 
     constructor(identifier: string, name: string, elementType: Type, dimension: number) {
         super(identifier, name);
-        this.elementType = elementType;
-        this.dimension = dimension;
+        this._elementType = elementType;
+        this._dimension = dimension;
     }
 
     /**
@@ -101,8 +101,8 @@ export class ArrayType extends Type {
      *
      * @returns The type of the elements in the array.
      */
-    getElementType(): Type {
-        return this.elementType;
+    public get elementType(): Type {
+        return this._elementType;
     }
 
     /**
@@ -110,8 +110,8 @@ export class ArrayType extends Type {
      *
      * @returns The number of dimensions of the array.
      */
-    getDimension(): number {
-        return this.dimension;
+    public get dimension(): number {
+        return this._dimension;
     }
 }
 
@@ -121,11 +121,11 @@ export class ArrayType extends Type {
  * @category Graph
  */
 export class TupleType extends Type {
-    private elementTypes: Type[];
+    private _elementTypes: Type[];
 
     constructor(identifier: string, name: string, elementTypes: Type[]) {
         super(identifier, name);
-        this.elementTypes = elementTypes;
+        this._elementTypes = elementTypes;
     }
 
     /**
@@ -133,8 +133,8 @@ export class TupleType extends Type {
      *
      * @returns The number of elements in the tuple.
      */
-    getSize(): number {
-        return this.elementTypes.length;
+    public get count(): number {
+        return this._elementTypes.length;
     }
 
     /**
@@ -142,18 +142,8 @@ export class TupleType extends Type {
      *
      * @returns All element types of the tuple.
      */
-    getElementTypes(): Type[] {
-        return this.elementTypes;
-    }
-
-    /**
-     * Get the type of the element at the given index.
-     *
-     * @param index Index of the element type in the tuple.
-     * @returns The type of the element at the given index.
-     */
-    getElementType(index: number): Type {
-        return this.elementTypes[index];
+    public get elementTypes(): Type[] {
+        return this._elementTypes;
     }
 }
 
@@ -163,11 +153,11 @@ export class TupleType extends Type {
  * @category Graph
  */
 export class UnionType extends Type {
-    private types: Type[];
+    private _types: Type[];
 
     constructor(identifier: string, name: string, types: Type[]) {
         super(identifier, name);
-        this.types = types;
+        this._types = types;
     }
 
     /**
@@ -175,8 +165,8 @@ export class UnionType extends Type {
      *
      * @returns The number of types in the union type.
      */
-    getTypesCount(): number {
-        return this.types.length;
+    public get count(): number {
+        return this._types.length;
     }
 
     /**
@@ -184,20 +174,8 @@ export class UnionType extends Type {
      *
      * @returns All types in the union type.
      */
-    getTypes(): Type[] {
-        return this.types;
-    }
-
-    /**
-     * Get the type at the specified index.
-     *
-     * This may not reflect the original order of the types in the union.
-     *
-     * @param index Index of the type to get.
-     * @returns The type at the specified index.
-     */
-    getType(index: number): Type {
-        return this.types[index];
+    public get types(): Type[] {
+        return this._types;
     }
 }
 

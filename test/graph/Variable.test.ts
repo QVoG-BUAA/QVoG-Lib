@@ -23,6 +23,6 @@ const factory = new ValueFactory(ArkTsSpecification);
 test('Variable Parsing Test', () => {
     const variable: Variable = factory.buildValue(VARIABLE_JSON);
     expect(variable instanceof Variable).toBe(true);
-    expect(variable.getName()).toBe('value');
-    expect(variable.getType() instanceof NumberType).toBe(true);
+    expect(variable.name).toBe('value');
+    expect(variable.type instanceof NumberType).toBe(true);
 });

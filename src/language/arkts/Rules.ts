@@ -52,7 +52,7 @@ export const VariableRule: LanguageValueRule<Variable> = {
     types: 'Local',
     build(json: JSON.VariableJson, factory: ValueFactory): Variable {
         const value = new Variable(json._identifier, json.name);
-        value.setType(factory.buildType(json.type));
+        value.type = factory.buildType(json.type);
         return value;
     },
 };
@@ -61,7 +61,7 @@ export const ConstantRule: LanguageValueRule<Constant> = {
     types: ['BooleanConstant', 'NumberConstant', 'StringConstant', 'NullConstant', 'UndefinedConstant'],
     build(json: JSON.ConstantJson, factory: ValueFactory): Constant {
         const value = new Constant(json._identifier, json.value);
-        value.setType(factory.buildType(json.type));
+        value.type = factory.buildType(json.type);
         return value;
     },
 };
@@ -71,7 +71,7 @@ export const FieldReferenceRule: LanguageValueRule<FieldReference> = {
     build(json: JSON.FieldReferenceJson, factory: ValueFactory): FieldReference {
         const base = typeof json.base === 'string' ? json.base : factory.buildValue(json.base);
         const value = new FieldReference(json._identifier, base, json.name);
-        value.setType(factory.buildType(json.type));
+        value.type = factory.buildType(json.type);
         return value;
     },
 };
@@ -82,7 +82,7 @@ export const ArrayReferenceRule: LanguageValueRule<ArrayReference> = {
         const base = factory.buildValue(json.base);
         const index = factory.buildValue(json.index);
         const value = new ArrayReference(json._identifier, base, index);
-        value.setType(factory.buildType(json.type));
+        value.type = factory.buildType(json.type);
         return value;
     },
 };
@@ -205,11 +205,11 @@ export const ReturnStmtRule: LanguageValueRule<ReturnStmt> = {
         if (json.op) {
             const operand = factory.buildValue(json.op);
             const stmt = new ReturnStmt(json._identifier, operand);
-            stmt.setType(operand.getType());
+            stmt.type = operand.type;
             return stmt;
         }
         const stmt = new ReturnStmt(json._identifier);
-        stmt.setType(new VoidType('VoidType', 'void'));
+        stmt.type = new VoidType('VoidType', 'void');
         return stmt;
     },
 };
@@ -231,7 +231,7 @@ export const BinaryOperatorRule: LanguageValueRule<BinaryOperator> = {
         const leftOperand = factory.buildValue(json.op1);
         const rightOperand = factory.buildValue(json.op2);
         const expression = new BinaryOperator(json._identifier, leftOperand, rightOperand, json.operator);
-        expression.setType(factory.buildType(json.type));
+        expression.type = factory.buildType(json.type);
         return expression;
     },
 };
@@ -242,7 +242,7 @@ export const CompareOperatorRule: LanguageValueRule<CompareOperator> = {
         const leftOperand = factory.buildValue(json.op1);
         const rightOperand = factory.buildValue(json.op2);
         const expression = new CompareOperator(json._identifier, leftOperand, rightOperand, json.operator);
-        expression.setType(factory.buildType(json.type));
+        expression.type = factory.buildType(json.type);
         return expression;
     },
 };
@@ -252,7 +252,7 @@ export const UnaryOperatorRule: LanguageValueRule<UnaryOperator> = {
     build(json: JSON.UnaryOperatorJson, factory: ValueFactory): UnaryOperator {
         const operand = factory.buildValue(json.op);
         const expression = new UnaryOperator(json._identifier, operand, json.operator);
-        expression.setType(factory.buildType(json.type));
+        expression.type = factory.buildType(json.type);
         return expression;
     },
 };
@@ -263,7 +263,7 @@ export const InvokeExprRule: LanguageValueRule<InvokeExpr> = {
         const base = json.base ? factory.buildValue(json.base) : undefined;
         const args = json.args.map((arg: AstJson) => factory.buildValue(arg));
         const expression = new InvokeExpr(json._identifier, json.name, args, base);
-        expression.setType(factory.buildType(json.type));
+        expression.type = factory.buildType(json.type);
         return expression;
     },
 };
@@ -273,7 +273,7 @@ export const NewExprRule: LanguageValueRule<NewExpr> = {
     build(json: JSON.NewExprJson, factory: ValueFactory): NewExpr {
         const size = json.size ? factory.buildValue(json.size) : undefined;
         const expression = new NewExpr(json._identifier, size);
-        expression.setType(factory.buildType(json.type));
+        expression.type = factory.buildType(json.type);
         return expression;
     },
 };
@@ -284,7 +284,7 @@ export const InstanceOfExprRule: LanguageValueRule<InstanceOfExpr> = {
         const op = factory.buildValue(json.op);
         const checkType = factory.buildType(json.checkType);
         const expression = new InstanceOfExpr(json._identifier, op, checkType);
-        expression.setType(factory.buildType(json.type));
+        expression.type = factory.buildType(json.type);
         return expression;
     },
 };
@@ -294,7 +294,7 @@ export const TypeOfExprRule: LanguageValueRule<TypeOfExpr> = {
     build(json: JSON.TypeOfExprJson, factory: ValueFactory): TypeOfExpr {
         const op = factory.buildValue(json.op);
         const expression = new TypeOfExpr(json._identifier, op);
-        expression.setType(factory.buildType(json.type));
+        expression.type = factory.buildType(json.type);
         return expression;
     },
 };

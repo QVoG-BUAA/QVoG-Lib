@@ -15,7 +15,7 @@ export class HamiltonFlow extends Flow {
         this.strategy = strategy;
 
         this.visited.clear();
-        this.visited.add(source.getId());
+        this.visited.add(source.id);
 
         this.streams = [];
         this.stream = [[source, undefined]];
@@ -26,24 +26,24 @@ export class HamiltonFlow extends Flow {
     }
 
     private dfs(current: Value): void {
-        const neighbors = this.strategy.getNeighbors(this.getDbContext().getGremlinConnection().g(), current.getId());
+        const neighbors = this.strategy.getNeighbors(this.getDbContext().getGremlinConnection().g(), current.id);
         if (neighbors.length === 0) {
             this.streams.push(new FlowStream(this.stream));
             return;
         }
 
         for (const [value, edge] of neighbors) {
-            if (this.visited.has(value.getId())) {
+            if (this.visited.has(value.id)) {
                 this.streams.push(new FlowStream(this.stream));
                 continue;
             }
-            this.visited.add(value.getId());
+            this.visited.add(value.id);
             this.stream.push([value, edge]);
 
             this.dfs(value);
 
             this.stream.pop();
-            this.visited.delete(value.getId());
+            this.visited.delete(value.id);
         }
     }
 }

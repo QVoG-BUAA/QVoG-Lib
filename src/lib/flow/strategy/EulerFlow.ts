@@ -24,7 +24,7 @@ export class EulerFlow extends Flow {
     }
 
     private dfs(current: Value): void {
-        const neighbors = this.strategy.getNeighbors(this.getDbContext().getGremlinConnection().g(), current.getId());
+        const neighbors = this.strategy.getNeighbors(this.getDbContext().getGremlinConnection().g(), current.id);
         if (neighbors.length === 0) {
             this.streams.push(new FlowStream(this.stream));
             return;

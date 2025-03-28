@@ -18,12 +18,12 @@
 import { expect, test } from 'vitest';
 import { ValueFactory } from 'qvog-engine';
 
-import { ArrayType, BooleanType, ClassType, NumberType, UnknownType } from '../../src/graph/Types';
+import { expectStream } from './util';
 import { Variable } from '../../src/graph/Variable';
 import { Constant } from '../../src/graph/Constant';
 import { ArkTsSpecification } from '../../src/language/arkts';
+import { ArrayType, BooleanType, ClassType, NumberType, UnknownType } from '../../src/graph/Types';
 import { BinaryOperator, CompareOperator, InstanceOfExpr, InvokeExpr, NewExpr, TypeOfExpr, UnaryOperator } from '../../src/graph/Expressions';
-import { expectStream } from './util';
 
 const BINARY_OPERATOR_JSON = {
     '_identifier': 'ArkNormalBinopExpr',
@@ -231,129 +231,129 @@ test('Variable Parsing Test', () => {
     expectStream(factory.buildValue(BINARY_OPERATOR_JSON), [
         (v) => { // self
             expect(v instanceof BinaryOperator).toBe(true);
-            expect((v as BinaryOperator).getOperator()).toBe('+');
-            expect(v.getType() instanceof NumberType).toBe(true);
+            expect((v as BinaryOperator).operator).toBe('+');
+            expect(v.type instanceof NumberType).toBe(true);
         },
         (v) => { // left operand
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('_1');
+            expect((v as Variable).name).toBe('_1');
         },
         (v) => { // right operand
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('_2');
+            expect((v as Variable).name).toBe('_2');
         }
     ]);
 
     expectStream(factory.buildValue(COMPARE_OPERATOR_JSON), [
         (v) => { // self
             expect(v instanceof CompareOperator).toBe(true);
-            expect((v as CompareOperator).getOperator()).toBe('<');
-            expect(v.getType().getName()).toBe('boolean');
+            expect((v as CompareOperator).operator).toBe('<');
+            expect(v.type.name).toBe('boolean');
         },
         (v) => { // left operand
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('_1');
+            expect((v as Variable).name).toBe('_1');
         },
         (v) => { // right operand
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('_2');
+            expect((v as Variable).name).toBe('_2');
         }
     ]);
 
     expectStream(factory.buildValue(UNARY_OPERATOR_JSON), [
         (v) => { // self
             expect(v instanceof UnaryOperator).toBe(true);
-            expect((v as UnaryOperator).getOperator()).toBe('!');
-            expect(v.getType().getName()).toBe('number');
+            expect((v as UnaryOperator).operator).toBe('!');
+            expect(v.type.name).toBe('number');
         },
         (v) => { // operand
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('_1');
+            expect((v as Variable).name).toBe('_1');
         }
     ]);
 
     expectStream(factory.buildValue(INSTANCE_INVOKE_JSON), [
         (v) => { // self
             expect(v instanceof InvokeExpr).toBe(true);
-            expect(v.getType() instanceof UnknownType).toBe(true);
+            expect(v.type instanceof UnknownType).toBe(true);
             expect((v as InvokeExpr).getTarget()).toBe('d');
         },
         (v) => { // base
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('baz');
-            expect(v.getType() instanceof ClassType).toBe(true);
+            expect((v as Variable).name).toBe('baz');
+            expect(v.type instanceof ClassType).toBe(true);
         },
         (v) => { // arg 1
             expect(v instanceof Constant).toBe(true);
-            expect((v as Constant).getIntValue()).toBe(1);
+            expect((v as Constant).intValue).toBe(1);
         },
         (v) => { // arg 2
             expect(v instanceof Constant).toBe(true);
-            expect((v as Constant).getStringValue()).toBe('hello');
+            expect((v as Constant).stringValue).toBe('hello');
         }
     ]);
 
     expectStream(factory.buildValue(STATIC_INVOKE_JSON), [
         (v) => { // self
             expect(v instanceof InvokeExpr).toBe(true);
-            expect(v.getType() instanceof UnknownType).toBe(true);
+            expect(v.type instanceof UnknownType).toBe(true);
             expect((v as InvokeExpr).getTarget()).toBe('%0');
         },
         (v) => { // arg 1
             expect(v instanceof Constant).toBe(true);
-            expect((v as Constant).getIntValue()).toBe(1);
+            expect((v as Constant).intValue).toBe(1);
         },
         (v) => { // arg 2
             expect(v instanceof Constant).toBe(true);
-            expect((v as Constant).getStringValue()).toBe('hello');
+            expect((v as Constant).stringValue).toBe('hello');
         }
     ]);
 
     expectStream(factory.buildValue(NEW_JSON), [
         (v) => { // self
             expect(v instanceof NewExpr).toBe(true);
-            expect(v.getType() instanceof ClassType).toBe(true);
-            expect(v.getType().getName()).toBe('@easytest/file.ts: %AC$%dflt$statementSpec$0');
+            expect(v.type instanceof ClassType).toBe(true);
+            expect(v.type.name).toBe('@easytest/file.ts: %AC$%dflt$statementSpec$0');
         }
     ]);
 
     expectStream(factory.buildValue(NEW_ARRAY_JSON), [
         (v) => { // self
             expect(v instanceof NewExpr).toBe(true);
-            expect(v.getType() instanceof ArrayType).toBe(true);
-            expect((v.getType() as ArrayType).getElementType() instanceof NumberType).toBe(true);
-            expect((v.getType() as ArrayType).getDimension()).toBe(1);
+            expect(v.type instanceof ArrayType).toBe(true);
+            expect((v.type as ArrayType).elementType instanceof NumberType).toBe(true);
+            expect((v.type as ArrayType).dimension).toBe(1);
         },
         (v) => { // size
             expect(v instanceof Constant).toBe(true);
-            expect((v as Constant).getIntValue()).toBe(3);
+            expect((v as Constant).intValue).toBe(3);
         }
     ]);
 
     expectStream(factory.buildValue(TYPE_OF_JSON), [
         (v) => { // self
             expect(v instanceof TypeOfExpr).toBe(true);
-            expect(v.getType() instanceof ClassType).toBe(true);
-            expect(v.getType().getName()).toBe('@%unk/%unk: TestObject');
+            expect(v.type instanceof ClassType).toBe(true);
+            expect(v.type.name).toBe('@%unk/%unk: TestObject');
         },
         (v) => { // operand
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('obj');
-            expect(v.getType() instanceof ClassType).toBe(true);
-            expect(v.getType().getName()).toBe('@%unk/%unk: TestObject');
+            expect((v as Variable).name).toBe('obj');
+            expect(v.type instanceof ClassType).toBe(true);
+            expect(v.type.name).toBe('@%unk/%unk: TestObject');
         }
     ]);
 
     expectStream(factory.buildValue(INSTANCE_OF_JSON), [
         (v) => { // self
             expect(v instanceof InstanceOfExpr).toBe(true);
-            expect(v.getType() instanceof BooleanType).toBe(true);
-            expect((v as InstanceOfExpr).getTestType().getName()).toBe('TestObject');
+            expect(v.type instanceof BooleanType).toBe(true);
+            expect((v as InstanceOfExpr).testType.name).toBe('TestObject');
         },
         (v) => { // operand
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('obj');
-            expect(v.getType() instanceof ClassType).toBe(true);
+            expect((v as Variable).name).toBe('obj');
+            expect(v.type instanceof ClassType).toBe(true);
         }
     ]);
 });

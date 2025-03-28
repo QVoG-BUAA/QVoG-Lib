@@ -24,13 +24,13 @@ export abstract class Reference extends Value {
  * @category Graph
  */
 export class FieldReference extends Reference {
-    private base: Value | string;
-    private name: string;
+    private _base: Value | string;
+    private _name: string;
 
     constructor(identifier: string, base: Value | string, name: string) {
         super(identifier);
-        this.base = base;
-        this.name = name;
+        this._base = base;
+        this._name = name;
     }
 
     /**
@@ -39,7 +39,7 @@ export class FieldReference extends Reference {
      * @returns `true` if the field reference is static, `false` otherwise.
      */
     isStatic(): boolean {
-        return typeof this.base === 'string';
+        return typeof this._base === 'string';
     }
 
     /**
@@ -47,8 +47,8 @@ export class FieldReference extends Reference {
      *
      * @returns Base object or class name.
      */
-    getBase(): Value | string {
-        return this.base;
+    public get base(): Value | string {
+        return this._base;
     }
 
     /**
@@ -56,14 +56,14 @@ export class FieldReference extends Reference {
      *
      * @returns The name of the field.
      */
-    getName(): string {
-        return this.name;
+    public get name(): string {
+        return this._name;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        if (this.base instanceof Value) {
-            yield this.base;
+        if (this._base instanceof Value) {
+            yield this._base;
         }
     }
 }
@@ -74,13 +74,13 @@ export class FieldReference extends Reference {
  * @category Graph
  */
 export class ArrayReference extends Reference {
-    private base: Value;
-    private index: Value;
+    private _base: Value;
+    private _index: Value;
 
     constructor(identifier: string, base: Value, index: Value) {
         super(identifier);
-        this.base = base;
-        this.index = index;
+        this._base = base;
+        this._index = index;
     }
 
     /**
@@ -88,8 +88,8 @@ export class ArrayReference extends Reference {
      *
      * @returns The base array object.
      */
-    getBase(): Value {
-        return this.base;
+    public get base(): Value {
+        return this._base;
     }
 
     /**
@@ -97,13 +97,13 @@ export class ArrayReference extends Reference {
      *
      * @returns The index of the element.
      */
-    getIndex(): Value {
-        return this.index;
+    public get index(): Value {
+        return this._index;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        yield this.base;
-        yield this.index;
+        yield this._base;
+        yield this._index;
     }
 }

@@ -127,39 +127,39 @@ test('Variable Parsing Test', () => {
     expectStream(factory.buildValue(ASSIGNMENT_JSON), [
         (v) => { // self
             expect(v instanceof AssignStmt).toBe(true);
-            expect((v as AssignStmt).getTarget() instanceof Variable).toBe(true);
-            expect(((v as AssignStmt).getTarget() as Variable).getName()).toBe('_1');
-            expect((v as AssignStmt).getValue() instanceof Constant).toBe(true);
-            expect(((v as AssignStmt).getValue() as Constant).getIntValue()).toBe(1);
+            expect((v as AssignStmt).target instanceof Variable).toBe(true);
+            expect(((v as AssignStmt).target as Variable).name).toBe('_1');
+            expect((v as AssignStmt).value instanceof Constant).toBe(true);
+            expect(((v as AssignStmt).value as Constant).intValue).toBe(1);
         },
         (v) => { // target
             expect(v instanceof Variable).toBe(true);
-            expect((v as Variable).getName()).toBe('_1');
+            expect((v as Variable).name).toBe('_1');
         },
         (v) => { // value
             expect(v instanceof Constant).toBe(true);
-            expect((v as Constant).getIntValue()).toBe(1);
+            expect((v as Constant).intValue).toBe(1);
         }
     ]);
 
     const invoke: InvokeStmt = factory.buildValue(INVOKE_STATEMENT_JSON);
     expect(invoke instanceof InvokeStmt).toBe(true);
-    expect(invoke.getExpression() instanceof InvokeExpr).toBe(true);
+    expect(invoke.expression instanceof InvokeExpr).toBe(true);
     // invoke expression in expression test
 
     let returnStmt: ReturnStmt;
 
     returnStmt = factory.buildValue(RETURN_VOID_JSON);
     expect(returnStmt instanceof ReturnStmt).toBe(true);
-    expect(returnStmt.getType() instanceof VoidType).toBe(true);
+    expect(returnStmt.type instanceof VoidType).toBe(true);
 
     returnStmt = factory.buildValue(RETURN_JSON);
     expect(returnStmt instanceof ReturnStmt).toBe(true);
-    expect(returnStmt.getType() instanceof NumberType).toBe(true);
-    expect(returnStmt.getValue() instanceof Constant).toBe(true);
+    expect(returnStmt.type instanceof NumberType).toBe(true);
+    expect(returnStmt.value instanceof Constant).toBe(true);
 
     const ifStmt: IfStmt = factory.buildValue(IF_STMT);
     expect(ifStmt instanceof IfStmt).toBe(true);
-    expect(ifStmt.getCondition() instanceof CompareOperator).toBe(true);
+    expect(ifStmt.condition instanceof CompareOperator).toBe(true);
     // condition expression in expression test
 });
