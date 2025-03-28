@@ -61,7 +61,7 @@ export class PImpl<U> {
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    and<V, W = any>(predicate: PImpl<V> | QImpl<V, W> | Predicate<V>, field?: FieldFn<U, V>): QImpl<U, V> {
+    and<V = U, W = any>(predicate: PImpl<V> | QImpl<V, W> | Predicate<V>, field?: FieldFn<U, V>): QImpl<U, V> {
         if (!field) {
             field = (value: U): V => value as unknown as V;
         }
@@ -83,7 +83,7 @@ export class PImpl<U> {
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    or<V, W = any>(predicate: PImpl<V> | QImpl<V, W> | Predicate<V>, field?: FieldFn<U, V>): QImpl<U, V> {
+    or<V = U, W = any>(predicate: PImpl<V> | QImpl<V, W> | Predicate<V>, field?: FieldFn<U, V>): QImpl<U, V> {
         if (!field) {
             field = (value: U): V => value as unknown as V;
         }
@@ -144,7 +144,7 @@ export class QImpl<U, V> {
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    and<W, X = any>(predicate: PImpl<W> | QImpl<W, X> | Predicate<W>, field?: FieldFn<V, W>): QImpl<U, W> {
+    and<W = U, X = any>(predicate: PImpl<W> | QImpl<W, X> | Predicate<W>, field?: FieldFn<V, W>): QImpl<U, W> {
         if (!field) {
             field = (value: V): W => value as unknown as W;
         }
@@ -169,7 +169,7 @@ export class QImpl<U, V> {
      * @param field Field function.
      * @returns Chainable predicate object.
      */
-    or<W, X = any>(predicate: PImpl<W> | QImpl<W, X> | Predicate<W>, field?: FieldFn<V, W>): QImpl<U, W> {
+    or<W = U, X = any>(predicate: PImpl<W> | QImpl<W, X> | Predicate<W>, field?: FieldFn<V, W>): QImpl<U, W> {
         if (!field) {
             field = (value: V): W => value as unknown as W;
         }

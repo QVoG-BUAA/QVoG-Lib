@@ -276,7 +276,7 @@ test('Variable Parsing Test', () => {
         (v) => { // self
             expect(v instanceof InvokeExpr).toBe(true);
             expect(v.type instanceof UnknownType).toBe(true);
-            expect((v as InvokeExpr).getTarget()).toBe('d');
+            expect((v as InvokeExpr).target).toBe('d');
         },
         (v) => { // base
             expect(v instanceof Variable).toBe(true);
@@ -297,7 +297,7 @@ test('Variable Parsing Test', () => {
         (v) => { // self
             expect(v instanceof InvokeExpr).toBe(true);
             expect(v.type instanceof UnknownType).toBe(true);
-            expect((v as InvokeExpr).getTarget()).toBe('%0');
+            expect((v as InvokeExpr).target).toBe('%0');
         },
         (v) => { // arg 1
             expect(v instanceof Constant).toBe(true);

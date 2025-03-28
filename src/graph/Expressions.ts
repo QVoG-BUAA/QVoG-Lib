@@ -162,15 +162,15 @@ export class UnaryOperator extends Expression {
  * @category Graph
  */
 export class InvokeExpr extends Expression {
-    private base?: Value;
-    private target: string;
-    private args: Value[];
+    private _base?: Value;
+    private _target: string;
+    private _args: Value[];
 
     constructor(identifier: string, target: string, args: Value[], base?: Value) {
         super(identifier);
-        this.base = base;
-        this.target = target;
-        this.args = args;
+        this._base = base;
+        this._target = target;
+        this._args = args;
     }
 
     /**
@@ -179,8 +179,8 @@ export class InvokeExpr extends Expression {
      *
      * @returns The base object, or `undefined` if it is a regular function call.
      */
-    getBase(): Value | undefined {
-        return this.base;
+    public get base(): Value | undefined {
+        return this._base;
     }
 
     /**
@@ -188,8 +188,8 @@ export class InvokeExpr extends Expression {
      *
      * @returns The target function name.
      */
-    getTarget(): string {
-        return this.target;
+    public get target(): string {
+        return this._target;
     }
 
     /**
@@ -197,8 +197,8 @@ export class InvokeExpr extends Expression {
      *
      * @returns The number of arguments.
      */
-    getArgsCount(): number {
-        return this.args.length;
+    public get argCount(): number {
+        return this._args.length;
     }
 
     /**
@@ -206,26 +206,16 @@ export class InvokeExpr extends Expression {
      *
      * @returns The arguments passed to the function.
      */
-    getArgs(): Value[] {
-        return this.args;
-    }
-
-    /**
-     * Get the argument at the specified index.
-     *
-     * @param index Index of the argument to get.
-     * @returns The argument at the specified index.
-     */
-    getArg(index: number): Value {
-        return this.args[index];
+    public get args(): Value[] {
+        return this._args;
     }
 
     protected *elements(): IterableIterator<Value> {
         yield this;
-        if (this.base) {
-            yield this.base;
+        if (this._base) {
+            yield this._base;
         }
-        for (const arg of this.args) {
+        for (const arg of this._args) {
             yield arg;
         }
     }
