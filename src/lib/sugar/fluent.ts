@@ -1,56 +1,60 @@
-import { CurrentQueryContext, ICanSetAlias, Value, ValuePredicateFn } from 'qvog-engine';
-
-import { P, Predicate } from '~/lib/predicate';
+import {
+    FilterDescriptor,
+    FilterDescriptorBuilder,
+    FlowPredicate,
+    FlowPredicateFn,
+    RowPredicate,
+    RowPredicateFn,
+    Value,
+    ValuePredicate,
+} from 'qvog-engine';
+import { Predicate } from '~/lib/predicate';
 
 /**
- * Simplify FromClause.
+ * Simplify value where clause.
  *
- * Example:
+ * @example
+ *
+ * The complete where clause would be:
  *
  * ```typescript
- * from(f => f.withData(v => v.stream().any(Predicate)).as('alias'))...
+ * q.where(f => f.on('alias').where(ValuePredicate.of(predicate)))
  * ```
  *
  * This is equivalent to:
  *
  * ```typescript
- * from(f => S.data(Predicate).as('alias'))...
+ * where('alias', predicate)
  * ```
  *
- * Indeed, simplified, but you are unable to perform shallow test on AST root only.
- *
- * @category Sugar
+ * @param table Table name.
+ * @param predicate Value predicate.
+ * @returns Filter descriptor.
  */
-export class S {
-    static data(predicate: ValuePredicateFn): ICanSetAlias {
-        const f = CurrentQueryContext.fromDescriptor;
-        return f.withData((v: Value) => v.stream().any(predicate));
-    }
+export function value<T extends Value = Value>(table: string, predicate: Predicate<T>): FilterDescriptor {
+    const f = new FilterDescriptorBuilder();
+    return f
+        .on(table)
+        .where(ValuePredicate.of((v) => predicate(v as T)))
+        .build();
+}
 
-    static dataOf<T>(clazz: any, predicate: Predicate<T> = (v: T) => true): ICanSetAlias {
-        const f = CurrentQueryContext.fromDescriptor;
-        return f.withData((v: Value) =>
-            v.stream().any(
-                P<Value>((s: Value) => s instanceof clazz)
-                    .and(predicate)
-                    .done()
-            )
-        );
-    }
+/**
+ * Simplify row where clause.
+ *
+ * @see {@link value}.
+ */
+export function row(table: string, predicate: RowPredicateFn): FilterDescriptor {
+    const f = new FilterDescriptorBuilder();
+    return f.on(table).where(RowPredicate.of(predicate)).build();
+}
 
-    static predicate(predicate: ValuePredicateFn): ICanSetAlias {
-        const f = CurrentQueryContext.fromDescriptor;
-        return f.withPredicate(predicate);
-    }
-
-    static predicateOf<T>(clazz: any, predicate: Predicate<T> = (v: T) => true): ICanSetAlias {
-        const f = CurrentQueryContext.fromDescriptor;
-        return f.withPredicate((v: Value) =>
-            v.stream().any(
-                P<Value>((s: Value) => s instanceof clazz)
-                    .and(predicate)
-                    .done()
-            )
-        );
-    }
+/**
+ * Simplify flow where clause.
+ *
+ * @see {@link value}.
+ */
+export function flow(table: string, predicate: FlowPredicateFn): FilterDescriptor {
+    const f = new FilterDescriptorBuilder();
+    return f.on(table).where(FlowPredicate.of(predicate)).build();
 }

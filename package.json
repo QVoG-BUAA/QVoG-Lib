@@ -1,7 +1,7 @@
 {
   "name": "qvog-lib",
   "description": "QVoG library",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@kaciras/deasync": "^1.1.0",
-    "qvog-engine": "^0.2.0"
+    "qvog-engine": "^0.2.1"
   },
   "repository": {
     "type": "git",

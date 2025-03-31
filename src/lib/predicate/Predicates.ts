@@ -202,3 +202,36 @@ export class QImpl<U, V> {
 export function P<T = Value>(predicate: Predicate<T>): PImpl<T> {
     return new PImpl<T>(predicate);
 }
+
+/**
+ * Provides extra type checking for the predicate.
+ *
+ * @typeParam T The type of the desired value.
+ * @typeParam U The type of the actual value.
+ *
+ * @param clazz The desired class type.
+ * @param predicate The predicate to test desired class type.
+ * @returns `true` if the value is an instance of the class and satisfies the predicate, otherwise `false`.
+ */
+export function Q<T, U = Value>(
+    clazz: new (...args: any) => T,
+    predicate: Predicate<T> = () => true,
+    field?: (v: U) => any
+): Predicate<U> {
+    if (field) {
+        return (value: U): boolean => {
+            const f = field(value);
+            if (f instanceof clazz) {
+                return predicate(f);
+            }
+            return false;
+        };
+    }
+
+    return (value: U): boolean => {
+        if (value instanceof clazz) {
+            return predicate(value as T);
+        }
+        return false;
+    };
+}

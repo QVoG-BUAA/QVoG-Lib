@@ -15,6 +15,9 @@
  *
  * @categoryDescription Sugar
  * Sugar for the DSL API.
+ *
+ * @categoryDescription Utils
+ * Utility functions.
  */
 
 export * from './graph';
