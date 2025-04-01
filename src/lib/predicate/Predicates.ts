@@ -53,21 +53,27 @@ export class PImpl<U> {
      *
      * If `field` is not provided, it will continue to use the current value
      * as the subject of the predicate.
+     * 
+     * If `clazz` is provided, it will check if the field is an instance of the class or not first before
+     * applying the predicate, saving you from an extra type check before this call.
      *
      * @typeParam V The type of the field.
-     * @typeParam W Any type.
      *
      * @param predicate Predicate.
      * @param field Field function.
+     * @param clazz Class type.
      * @returns Chainable predicate object.
      */
-    and<V = U, W = any>(predicate: PImpl<V> | QImpl<V, W> | Predicate<V>, field?: FieldFn<U, V>): QImpl<U, V> {
+    and<V = U>(predicate: PImpl<V> | Predicate<V>, field?: FieldFn<U, V>, clazz?: new (...args: any) => V): PImpl<U> {
         if (!field) {
             field = (value: U): V => value as unknown as V;
         }
-        const fn =
-            predicate instanceof PImpl || predicate instanceof QImpl ? (v: V): boolean => predicate.test(v) : predicate;
-        return new QImpl<U, V>((value: U) => this.predicate(value) && fn(field(value)), field);
+        const fn = predicate instanceof PImpl ? (v: V): boolean => predicate.test(v) : predicate;
+        if (clazz) {
+            const typedFn = (v: V): boolean => v instanceof clazz && fn(v);
+            return new PImpl<U>((v: U) => this.predicate(v) && typedFn(field(v)));
+        }
+        return new PImpl<U>((v: U) => this.predicate(v) && fn(field(v)));
     }
 
     /**
@@ -75,110 +81,27 @@ export class PImpl<U> {
      *
      * If `field` is not provided, it will continue to use the current value
      * as the subject of the predicate.
+     * 
+     * If `clazz` is provided, it will check if the field is an instance of the class or not first before
+     * applying the predicate, saving you from an extra type check before this call.
      *
      * @typeParam V The type of the field.
-     * @typeParam W Any type.
      *
      * @param predicate Predicate.
      * @param field Field function.
+     * @param clazz Class type.
      * @returns Chainable predicate object.
      */
-    or<V = U, W = any>(predicate: PImpl<V> | QImpl<V, W> | Predicate<V>, field?: FieldFn<U, V>): QImpl<U, V> {
+    or<V = U>(predicate: PImpl<V> | Predicate<V>, field?: FieldFn<U, any>, clazz?: new (...args: any) => V): PImpl<U> {
         if (!field) {
             field = (value: U): V => value as unknown as V;
         }
-        const fn =
-            predicate instanceof PImpl || predicate instanceof QImpl ? (v: V): boolean => predicate.test(v) : predicate;
-        return new QImpl<U, V>((value: U) => this.predicate(value) || fn(field(value)), field);
-    }
-
-    /**
-     * Get the chained predicate.
-     *
-     * @returns The predicate function.
-     */
-    done(): Predicate<U> {
-        return this.predicate;
-    }
-}
-
-/**
- * A chainable predicate object.
- *
- * It support a predicate chain from type U to type V.
- *
- * @typeParam U The initial type of the value.
- * @typeParam V The current type of the value.
- *
- * @category Predicate
- */
-export class QImpl<U, V> {
-    private predicate: Predicate<U>;
-    private field: FieldFn<U, V>;
-
-    constructor(predicate: Predicate<U>, field: FieldFn<U, V>) {
-        this.predicate = predicate;
-        this.field = field;
-    }
-
-    /**
-     * Apply the predicate to a value.
-     *
-     * @param value The value to test.
-     * @returns `true` if the value satisfies the predicate, otherwise `false`.
-     */
-    test(value: U): boolean {
-        return this.predicate(value);
-    }
-
-    /**
-     * Chain another predicate with AND operator.
-     *
-     * If `field` is not provided, it will continue to use the current value
-     * as the subject of the predicate.
-     *
-     * @typeParam W The type of the field.
-     * @typeParam X Any type.
-     *
-     * @param predicate Predicate.
-     * @param field Field function.
-     * @returns Chainable predicate object.
-     */
-    and<W = U, X = any>(predicate: PImpl<W> | QImpl<W, X> | Predicate<W>, field?: FieldFn<V, W>): QImpl<U, W> {
-        if (!field) {
-            field = (value: V): W => value as unknown as W;
+        const fn = predicate instanceof PImpl ? (v: V): boolean => predicate.test(v) : predicate;
+        if (clazz) {
+            const typedFn = (v: V): boolean => v instanceof clazz && fn(v);
+            return new PImpl<U>((v: U) => this.predicate(v) && typedFn(field(v)));
         }
-        const fn =
-            predicate instanceof PImpl || predicate instanceof QImpl ? (v: W): boolean => predicate.test(v) : predicate;
-        return new QImpl<U, W>(
-            (value: U) => this.predicate(value) && fn(field(this.field(value))),
-            (value: U) => field(this.field(value))
-        );
-    }
-
-    /**
-     * Chain another predicate with OR operator.
-     *
-     * If `field` is not provided, it will continue to use the current value
-     * as the subject of the predicate.
-     *
-     * @typeParam W The type of the field.
-     * @typeParam X Any type.
-     *
-     * @param predicate Predicate.
-     * @param field Field function.
-     * @returns Chainable predicate object.
-     */
-    or<W = U, X = any>(predicate: PImpl<W> | QImpl<W, X> | Predicate<W>, field?: FieldFn<V, W>): QImpl<U, W> {
-        if (!field) {
-            field = (value: V): W => value as unknown as W;
-        }
-        const fn =
-            predicate instanceof PImpl || predicate instanceof QImpl ? (v: W): boolean => predicate.test(v) : predicate;
-        return new QImpl<U, W>(
-            (value: U) => this.predicate(value) || fn(field(this.field(value))),
-            (value: U) => field(this.field(value))
-        );
+        return new PImpl<U>((v: U) => this.predicate(v) || fn(field(v)));
     }
 
     /**
